@@ -1,0 +1,9 @@
+@use 'sass:math';
+
+@function negative-value-to-n($value) {
+  @if $value < 0 {
+    @return 'n' + math.abs($value)
+  } @else {
+    @return $value
+  }
+}

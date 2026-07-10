@@ -1,0 +1,46 @@
+// Invisible click shield covering the ::before label area — blocks ngb selection
+.typeahead-section-shield {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.75rem; // must match padding-top below
+  z-index: 1;
+  cursor: default;
+}
+
+// Expand the ngb button to make room above the item content
+button.dropdown-item:has(.typeahead-item[data-section]) {
+  padding-top: 1.75rem;
+}
+
+// The ::before lives on .typeahead-item so attr(data-section) actually resolves.
+// Negative margins + absolute positioning let it escape the button's box.
+.typeahead-item[data-section]::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: block;
+  padding: 0.15rem 1rem;
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--bs-secondary-color);
+  pointer-events: none;
+  content: attr(data-section);
+  background: var(--bs-dropdown-bg);
+  border-bottom: 1px solid var(--bs-border-color);
+}
+
+// Keep the label visible and un-highlighted when the row is active
+button.dropdown-item.active .typeahead-item[data-section]::before,
+button.dropdown-item:active .typeahead-item[data-section]::before {
+  color: var(--bs-secondary-color);
+  background: var(--bs-dropdown-bg);
+  border-bottom-color: var(--bs-border-color);
+}
+
+// The button itself needs position:relative for the absolute ::before to anchor to it
+button.dropdown-item:has(.typeahead-item[data-section]) {
+  position: relative;
+}

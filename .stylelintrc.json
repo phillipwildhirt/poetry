@@ -1,0 +1,77 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-recess-order"
+  ],
+  "plugins": [
+    "stylelint-order"
+  ],
+  "overrides": [
+    {
+      "files": ["*.html"],
+      "customSyntax": "postcss-html"
+    },
+    {
+      "files": ["*.ts"],
+      "customSyntax": "postcss-angular-inline"
+    },
+    {
+      "files": ["*.html"],
+      "customSyntax": "postcss-html"
+    },
+    {
+      "files": ["*.ts"],
+      "customSyntax": "postcss-angular-inline"
+    }
+  ],
+  "rules": {
+    "at-rule-empty-line-before": ["always", { "ignore": ["blockless-after-blockless"], "ignoreAtRules": ["include", "extend", "for", "if", "else", "return", "error"] }],
+    "selector-class-pattern": "^([a-z0-9]+(-[a-z0-9]*)*$)||(mdc-.*$)",
+    "selector-id-pattern": ["^[a-z0-9]+(-[a-z0-9]*)*$", { "severity": "warning" }],
+    "selector-type-case": "lower",
+    "no-duplicate-selectors": [true, { "severity": "warning" }],
+    "no-descending-specificity": null,
+    "selector-not-notation": null,
+    "selector-type-no-unknown": [true, {
+      "ignoreTypes": [
+        "smaller",
+        "h7",
+        "/^h[1-7]-bold$/",
+        "/^h[1-7]-important$/",
+        "/^ngb-[a-z-]+$/",
+        "/^app-[a-z-]+$/"
+      ]
+    }],
+    "no-invalid-position-declaration": [true, { "ignoreAtRules": ["mixin"] }],
+    "font-family-name-quotes": "always-unless-keyword",
+    "color-function-alias-notation": null,
+    "color-function-notation": ["modern", {"ignore": ["with-var-inside"]}],
+    "color-hex-length": null,
+    "number-max-precision": 6,
+    "declaration-block-no-redundant-longhand-properties": [true, {"severity": "warning"}],
+    "length-zero-no-unit": [true, {
+      "severity": "warning",
+      "ignore": ["custom-properties"],
+      "ignoreFunctions": ["var"]
+    }],
+    "property-no-vendor-prefix": [true, {
+        "ignoreProperties": [
+          "appearance",
+          "mask-image",
+          "mask-repeat",
+          "print-color-adjust"
+        ]
+    }],
+
+    "scss/dollar-variable-colon-space-before": null,
+    "scss/dollar-variable-colon-space-after": "at-least-one-space",
+    "scss/dollar-variable-empty-line-before": null,
+    "scss/dollar-variable-no-missing-interpolation": true,
+    "scss/double-slash-comment-empty-line-before": null,
+    "scss/double-slash-comment-whitespace-inside": null,
+    "scss/load-no-partial-leading-underscore": null,
+    "scss/comment-no-empty": [true, {"severity":  "warning"}],
+    "scss/operator-no-newline-before": null,
+    "scss/at-extend-no-missing-placeholder": null
+  }
+}

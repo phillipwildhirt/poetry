@@ -1,0 +1,23 @@
+@use 'sass:math';
+@use 'sass:map';
+@use 'sass:color';
+
+
+$theme-color-interval: .08;
+
+@function create-color-palette($color-levels, $base-color, $base-color-name) {
+  $map: ("#{$base-color-name}": $base-color);
+
+  @each $color-level, $level-value in $color-levels {
+    $l: math.div(color.channel($base-color, "lightness", $space: hsl), 100%);
+    $new-l: 0;
+    @if $level-value > 0 {
+      $new-l: $l - ($l * $theme-color-interval * $level-value);
+    } @else {
+      $new-l: $l - ((1 - $l) * $theme-color-interval * $level-value);
+    }
+    $map: map.merge($map, ("#{$base-color-name}-#{$color-level}": color.change($base-color, $lightness: $new-l * 100%)));
+  }
+
+  @return $map;
+}

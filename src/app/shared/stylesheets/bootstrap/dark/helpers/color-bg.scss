@@ -1,0 +1,14 @@
+@use 'sass:map';
+
+@include color-mode(dark) {
+  $theme-colors-dark: (
+    "darknlight":         $darknlight-dark
+  );
+
+  @each $color, $value in $theme-colors-dark {
+    .text-bg-#{$color} {
+      color: color-contrast($value) if($enable-important-utilities, !important, null);
+      background-color: RGBA(var(--#{$prefix}#{$color}-rgb), var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
+    }
+  }
+}
