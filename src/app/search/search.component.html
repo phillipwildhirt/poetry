@@ -1,0 +1,8 @@
+<div class="p-4">
+  <form>
+    <input class="form-control"
+           [formControl]="form"
+           placeholder="Search by author, title, or poem text"
+           (focus)="focus$.next($any($event.target).value)"/>
+  </form>
+</div>

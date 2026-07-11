@@ -1,0 +1,34 @@
+<div class="w-100">
+  <div class="list-group w-100">
+    @for (result of data().results; track isSkeleton(result) ? $index : isAuthor(result) ? result.name : result.title) {
+      @if (result.sectionLabel) {
+        <button class="list-group-item list-group-item-secondary py-2 px-3 list-group-item-action" (click)="searchBySection(result.sectionLabel)">
+          <div class="h6 small fst-italic">{{ result.sectionLabel }}<span class="small fw-light"> — touch to search {{ result.sectionLabel }} only</span></div>
+        </button>
+      }
+      @if (isSkeleton(result)) {
+        <div class="list-group-item">
+          <div class="d-flex gap-2 pb-2">
+            <app-skeleton width="100px" height="1.25rem"/>
+            <app-skeleton width="70px" height="1.25rem"/>
+            <app-skeleton width="150px" height="1.25rem"/>
+          </div>
+          <div class="d-flex gap-2">
+            <app-skeleton width="80px" height=".85rem"/>
+            <app-skeleton width="125px" height=".85rem"/>
+          </div>
+        </div>
+      } @else {
+        <button type="button" class="list-group-item text-start" appListInteractionStateDirective>
+        @if (isAuthor(result)) {
+          <app-author-result [result]="result" [term]="data().term"/>
+        } @else if (isTitle(result)) {
+          <app-title-result [result]="result" [term]="data().term"/>
+        } @else if (isLine(result)) {
+          <app-line-result [result]="result" [term]="data().term"/>
+        }
+        </button>
+      }
+    }
+  </div>
+</div>

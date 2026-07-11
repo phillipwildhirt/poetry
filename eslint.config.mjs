@@ -28,9 +28,9 @@ export default defineConfig([
     extends: compat.extends(
       'plugin:@angular-eslint/recommended',
       'plugin:@angular-eslint/template/process-inline-templates',
-      'plugin:@ngrx/store',
-      'plugin:@ngrx/effects',
-      'plugin:@ngrx/operators',
+      // 'plugin:@ngrx/store',
+      // 'plugin:@ngrx/effects',
+      // 'plugin:@ngrx/operators',
     ),
 
     languageOptions: {
@@ -85,10 +85,10 @@ export default defineConfig([
         }
       ],
 
-      '@ngrx/prefer-effect-callback-in-block-statement': 'off',
-      '@ngrx/prefer-concat-latest-from': 'off',
-      '@ngrx/no-store-subscription': 'off',
-      '@ngrx/avoid-mapping-selectors': 'warn',
+      // '@ngrx/prefer-effect-callback-in-block-statement': 'off',
+      // '@ngrx/prefer-concat-latest-from': 'off',
+      // '@ngrx/no-store-subscription': 'off',
+      // '@ngrx/avoid-mapping-selectors': 'warn',
     },
   }, {
     files: ['**/*.html'],

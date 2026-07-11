@@ -11,6 +11,40 @@
 @import 'app/shared/skeleton/skeleton.component';
 @import 'app/shared/stylesheets/dropdown-max-height';
 
+
+/**  Cursors   */
+
+.no-select {
+  user-select: none;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+$cursors: ('pointer', 'default', 'progress', 'wait', 'no-drop');
+
+@each $cursor in $cursors {
+  .#{$cursor}-cursor {
+    cursor: #{$cursor};
+  }
+}
+
+.clickable {
+  @extend .pointer-cursor;
+}
+
+
+/**  White Space   */
+
+$white-spaces: ('pre', 'initial', 'pre-line', 'pre-wrap', 'nowrap');
+
+@each $white-space in $white-spaces {
+  .#{$white-space}-white-space {
+    white-space: #{$white-space};
+  }
+}
+
 @each $palette, $palette-map in $nt-colors {
 
   @each $color, $value in $palette-map {
@@ -114,7 +148,20 @@
   color: var(--#{$prefix}input-placeholder-color);
 }
 
+.title {
+  font-family: "Sora", sans-serif;
+  @extend .fst-italic;
+  @extend .fw-normal;
+}
 
+.author {
+  font-family: "Sora", sans-serif;
+  @extend .fw-light;
+}
+
+.poem {
+  font-family: "Libre Baskerville", serif;
+}
 
 .small-caps {
   font-size: 80%;

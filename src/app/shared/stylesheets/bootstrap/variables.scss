@@ -337,8 +337,23 @@ $variable-prefix: bs-;
 $prefix: $variable-prefix;
 // see utilities.scss for more grid map expansion
 
+$font-family-base          : "Libre Baskerville", serif;
+$font-size-base            : 1.25rem;
+$font-weight-base          : 400;
 
-$font-size-base            : 1rem;
+$headings-font-family      : "Sora", sans-serif;
+$headings-margin-bottom    : 0;
+
+$display-font-family       : "Sora", sans-serif;
+$display-font-sizes        : (
+  1: 7rem,
+  2: 6rem,
+  3: 5rem,
+  4: 4rem,
+  5: 3rem,
+  6: 2.5rem
+);
+
 $smaller-font-size         : 70%;
 $small-font-size           : 85%;
 $h7-font-size              : $font-size-base * math.div(strip-unit($small-font-size), 100);

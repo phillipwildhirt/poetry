@@ -1,0 +1,30 @@
+<div class="w-100 minw-100 minh-100 p-4 overflow-auto">
+  <div class="list-group">
+    @if (loading()) {
+      @for (i of skeletonRows; track i) {
+        <div class="list-group-item">
+          <div class="d-flex gap-2">
+            <div class="d-flex gap-2 pb-2">
+              <app-skeleton width="100px" height="1.25rem"/>
+              <app-skeleton width="70px" height="1.25rem"/>
+              <app-skeleton width="150px" height="1.25rem"/>
+            </div>
+            <div class="d-flex gap-2">
+              <app-skeleton width="80px" height=".85rem"/>
+              <app-skeleton width="125px" height=".85rem"/>
+            </div>
+          </div>
+        </div>
+      }
+    } @else {
+      @let existsData = data();
+      @if (existsData) {
+        @for (result of existsData.results; track result.line) {
+          <button type="button" class="list-group-item text-start" appListInteractionStateDirective>
+            <app-line-result [result]="result" [term]="existsData.term"/>
+          </button>
+        }
+      }
+    }
+  </div>
+</div>

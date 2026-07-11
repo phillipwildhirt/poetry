@@ -1,3 +1,8 @@
-<app-search/>
-
-<router-outlet />
+<div class="vw-100 vh-100 d-flex justify-content-center align-items-stretch flex-column">
+  @if (data() === undefined) {
+    <div class="display-1 text-center pb-10 fw-bold" style="letter-spacing: -.2rem;">V<span class="fw-bold">er</span><span class="text-body-secondary">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span></div>
+<!--    <div class="display-1 text-center pb-10 fw-light text-body-secondary" style="letter-spacing: -.2rem;">V<span class="fw-light">er</span><span class=" fw-bold">s<span class="fw-bold">e<span class="text-body fw-bold">arch</span></span></span></div>-->
+  }
+  <app-search [mode]="mode()" (data)="onSearchData($event)"/>
+  <router-outlet [routerOutletData]="data()"/>
+</div>

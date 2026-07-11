@@ -15,17 +15,15 @@ export class PoetryApiService {
     );
   }
 
-  searchTitles(term: string): Observable<PoemTitleAuthor[]> {
-    return this.http.get<PoemTitleAuthor[]>(`${BASE_URL}/title,poemcount/${term};10/title,author`).pipe(
+  searchTitles(term: string, limit = 10): Observable<PoemTitleAuthor[]> {
+    return this.http.get<PoemTitleAuthor[]>(`${BASE_URL}/title,poemcount/${term};${limit}/title,author`).pipe(
       map(res => 'status' in res && res.status === 404 ? [] : res)
     );
   }
 
-  // authorSearch(term: string): Observable<Poem[]> {
-  //   return this.http.get<Poem[]>(`${BASE_URL}/author/${term}`);
-  // }
-
-  // titleSearch(term: string): Observable<Poem[]> {
-  //   return this.http.get<Poem[]>(`${BASE_URL}/title/${term}`);
-  // }
+  searchLines(term: string, limit = 10): Observable<Poem[]> {
+    return this.http.get<Poem[]>(`${BASE_URL}/lines,poemcount/${term};${limit}/title,author,lines,linecount`).pipe(
+      map((res) => (Array.isArray(res) ? res : []))
+    );
+  }
 }
