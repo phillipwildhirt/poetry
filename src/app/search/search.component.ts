@@ -1,55 +1,93 @@
-import { Component, inject, input, ViewEncapsulation } from '@angular/core';
-import { SearchService } from '@app/search/services/search.service';
-import { AppState, TypeaheadResultKind } from '@app/shared/models/typeahead-result.model';
-import { TitleSearchService } from '@app/search/services/title-search.service';
-import { LineSearchService } from '@app/search/services/line-search.service';
-import { merge, startWith, Subject, switchMap, tap } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { AuthorSearchService } from '@app/search/services/author-search.service';
-import { outputFromObservable, takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { AppState, TypeaheadAuthorResult, TypeaheadResult, TypeaheadResultKind } from '@app/shared/models/typeahead-result.model';
+import { SearchBarComponent } from '@app/search/search-bar/search-bar.component';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, merge, pairwise, startWith } from 'rxjs';
+import { ButtonIconComponent } from '@app/shared/button-icon/button-icon.component';
 import { SearchTermService } from '@app/shared/services/search-term.service';
+import { distinctUntilChanged } from 'rxjs/operators';
 
+const SECTION_STATES = [
+  TypeaheadResultKind.author,
+  TypeaheadResultKind.title,
+  TypeaheadResultKind.line,
+] as const satisfies AppState[];
+
+const stateNotSpecificMode = (state: AppState): boolean => state !== TypeaheadResultKind.author && state !== TypeaheadResultKind.title && state !== TypeaheadResultKind.line;
+
+const urlToState = (url: string): AppState => {
+  if (url.startsWith('/search/author')) return TypeaheadResultKind.author;
+  if (url.startsWith('/search/title')) return TypeaheadResultKind.title;
+  if (url.startsWith('/search/line')) return TypeaheadResultKind.line;
+  return 'search';
+};
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
-  imports: [ReactiveFormsModule],
-  providers: [SearchService, AuthorSearchService, TitleSearchService, LineSearchService],
-  encapsulation: ViewEncapsulation.None,
+  imports: [RouterOutlet, SearchBarComponent, ButtonIconComponent],
 })
 export class SearchComponent {
-  private readonly searchService = inject(SearchService);
+  private readonly router = inject(Router);
   private readonly searchTermService = inject(SearchTermService);
-  readonly state = input<AppState>('search');
-  readonly form = new FormControl<string>('', { nonNullable: true });
-  readonly focus$ = new Subject<string>();
+  readonly data = signal<{ results: TypeaheadResult[]; term: string } | undefined>(undefined);
+  readonly hero = computed<boolean>(() => this.data() === undefined);
 
-  private readonly source$ = merge(this.form.valueChanges, this.focus$);
+  readonly state: Signal<AppState> = toSignal(
+    merge(
+      this.router.events.pipe(
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        map((e): AppState => urlToState(e.urlAfterRedirects)),
+      ),
+      this.searchTermService.set$.pipe(
+        map((term): AppState => term ? 'exact-author' : urlToState(this.router.url)),
+      ),
+      this.searchTermService.reset$.pipe(
+        map((): AppState => urlToState(this.router.url)),
+      ),
+    ).pipe(startWith('search' as AppState)),
+    { initialValue: 'search' as AppState },
+  );
 
-  constructor() {
-    this.searchTermService.set$.pipe(takeUntilDestroyed()).subscribe((term) => {
-      this.form.setValue(term, { emitEvent: false });
-    });
-
-    this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
-      if (this.state() === 'exact-author') {
-        this.searchTermService.reset$.next();
-      }
-    });
-  }
-  readonly data = outputFromObservable(
+  readonly previousStateNotSpecificMode: Signal<boolean | undefined> = toSignal(
     toObservable(this.state).pipe(
-      tap((state) => console.log(`Searching in ${state} state`)),
-      switchMap((state, index) => {
-        const trigger$ = index === 0 ? this.source$ : this.source$.pipe(startWith(this.form.value));
-        return this.searchService.typeahead(trigger$, state).pipe(
-          map((results) => ({ results, term: this.form.value })),
-          tap((event) => console.log(event)),
-        );
-      })
+      distinctUntilChanged(),
+      pairwise(),
+      map(([prev]) => prev),
+      map(stateNotSpecificMode)
     ),
   );
-  protected readonly TypeaheadResultKind = TypeaheadResultKind;
+
+  readonly stateNotSpecificMode = computed(() => stateNotSpecificMode(this.state()));
+
+  onSearchData(event: { results: TypeaheadResult[]; term: string }): void {
+    const exactAuthor = event.results.find((r): r is TypeaheadAuthorResult =>
+      r.kind === TypeaheadResultKind.author && r.name.toLowerCase() === event.term.toLowerCase(),
+    );
+
+    if (exactAuthor) {
+      this.searchTermService.set$.next(exactAuthor.name);
+      return;
+    }
+
+    this.data.set(event);
+    if (this.state() === 'search') {
+      this.router.navigate(['search', 'results']);
+    }
+  }
+
+  protected back(): void {
+    if (this.state() === 'exact-author') {
+      this.searchTermService.set$.next('');
+    }
+    this.router.navigate(['search', 'results']);
+  }
+
+  protected resetAll(): void {
+    this.searchTermService.set$.next('');
+    this.data.set(undefined);
+    this.router.navigate(['search']);
+  }
 }

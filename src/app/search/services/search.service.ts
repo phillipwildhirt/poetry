@@ -5,6 +5,7 @@ import { PoetryApiService } from '@app/shared/services/poetry-api.service';
 import { TitleSearchService } from '@app/search/services/title-search.service';
 import { LineSearchService } from '@app/search/services/line-search.service';
 import { AuthorSearchService } from './author-search.service';
+import { isEmpty } from 'lodash-es';
 
 export const SECTION_LIMIT: Record<AppState, number> = {
   search: 5,
@@ -22,14 +23,14 @@ export class SearchService {
   private readonly lineSearchService = inject(LineSearchService);
   private readonly authorSearchService = inject(AuthorSearchService);
 
-  private readonly skeletons = (count: number, label: TypeaheadSectionLabel): TypeaheadSkeletonResult[] =>
+  private readonly skeletons = (count: number, label: TypeaheadSectionLabel | '' = ''): TypeaheadSkeletonResult[] =>
     Array.from({ length: count }, (_, i) => ({
       kind: TypeaheadResultKind.skeleton,
-      ...(i === 0 ? { sectionLabel: label } : {}),
+      ...(i === 0 && !isEmpty(label) ? { sectionLabel: label } : {}),
     }));
 
   readonly typeahead = (source$: Observable<string>, state: AppState): Observable<TypeaheadResult[]> => {
-    source$.pipe(take(1)).subscribe((term) => console.log(term, state));
+    // source$.pipe(take(1)).subscribe((term) => console.log(term, state));
     const limit = SECTION_LIMIT[state];
 
     // Title-only: no authors, loading state handled by component, emit results when ready
@@ -53,8 +54,10 @@ export class SearchService {
                 ),
             ),
             catchError(() => of([])),
+            startWith(null),
           );
         }),
+        map(titles => titles ?? this.skeletons(limit)),
       );
     }
 
@@ -80,15 +83,17 @@ export class SearchService {
                 ),
             ),
             catchError(() => of([])),
+            startWith(null),
           );
         }),
+        map(lines => lines ?? this.skeletons(limit)),
       );
     }
 
     if (state === 'exact-author') {
       return source$.pipe(
-        switchMap((author) =>
-          this.poetryApiService.getAuthorTitles(author).pipe(
+        switchMap((author) => {
+          return this.poetryApiService.getAuthorTitles(author).pipe(
             map((titles) =>
               titles.map(
                 (t, i) =>
@@ -101,8 +106,10 @@ export class SearchService {
               ),
             ),
             catchError(() => of([])),
-          ),
-        ),
+            startWith(null),
+          );
+      }),
+      map(titles => titles ?? this.skeletons(limit)),
       );
     }
 
@@ -121,8 +128,10 @@ export class SearchService {
               ),
             ),
             catchError(() => of([])),
+            startWith(null),
           );
         }),
+        map(authors => authors ?? this.skeletons(limit)),
       );
     }
 
@@ -187,7 +196,7 @@ export class SearchService {
           : of([]);
 
         return combineLatest([authors$, titles$, lines$]).pipe(
-          tap((v) => console.log(v)),
+          // tap((v) => console.log(v)),
 
           map(([authors, titles, lines]) => [
             ...(authors ?? this.skeletons(limit, TypeaheadSectionLabel.author)),

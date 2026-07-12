@@ -4,9 +4,11 @@ import { TypeaheadLineResult } from '@app/shared/models/typeahead-result.model';
 
 @Component({
   selector: 'app-line-result',
-  templateUrl: './line-result.component.html',
-  styleUrl: './line-result.component.scss',
   imports: [NgbHighlight],
+  template: `
+    <div class="d-block text-truncate mw-100 opacity-75 mb-1 small"><span class="title">{{ result().title }}</span> — <span class="author">{{ result().author }}</span></div>
+    <div class="d-block text-truncate mw-100 poem"><ngb-highlight [result]="result().line" [term]="term()" /></div>
+  `,
 })
 export class LineResultComponent {
   readonly result = input.required<TypeaheadLineResult>();

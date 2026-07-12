@@ -1,29 +1,20 @@
 <div class="w-100 minw-100 minh-100">
   <div class="list-group">
-    @if (loading()) {
-      @for (i of skeletonRows; track i) {
-        <div class="list-group-item">
-          <div class="d-flex gap-2">
-            <app-skeleton width="80px" height="1.25rem"/>
-            <app-skeleton width="125px" height="1.25rem"/>
+    @let existsData = data();
+    @if (existsData) {
+      @for (result of existsData.results; track $index) {
+        @if (isSkeleton(result)) {
+          <div class="list-group-item">
+            <app-title-skeleton/>
           </div>
-        </div>
-      }
-    } @else {
-      @let existsData = data();
-      @if (existsData) {
-        @if (isAuthorResults(existsData.results)) {
-          @for (result of existsData.results; track result.name) {
-            <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="authorClick(result)">
-              <app-author-result [result]="result" [term]="existsData.term"/>
-            </button>
-          }
-        } @else if (isTitleResults(existsData.results)) {
-          @for (result of existsData.results; track result.title) {
-            <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="openPoem(result)">
-              <app-title-result [result]="result" [term]="existsData.term"/>
-            </button>
-          }
+        } @else if (isAuthor(result)) {
+          <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="authorClick(result)">
+            <app-author-result [result]="result" [term]="existsData.term"/>
+          </button>
+        } @else if (isTitle(result)) {
+          <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="openPoem(result)">
+            <app-title-result [result]="result" [term]="existsData.term"/>
+          </button>
         }
       }
     }

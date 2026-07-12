@@ -1,6 +1,30 @@
-<div>
-    <input class="form-control"
-           [formControl]="form"
-           [placeholder]="'Search by ' + (state() === TypeaheadResultKind.author ? 'author' : state() === TypeaheadResultKind.title ? 'title' : state() === TypeaheadResultKind.line ? 'poem text' : 'author, title, or poem text')"
-           (focus)="focus$.next($any($event.target).value)"/>
+<div class="vw-100 vh-100 d-flex align-items-stretch flex-column"
+     [class.justify-content-center]="hero()"
+     [class.justify-content-start]="!hero()">
+  <div class="align-content-end text-center hero-container"
+       [class.hero]="hero()">
+    <div class="display-1 fw-bold pb-7" style="letter-spacing: -.2rem;">
+      V<span class="fw-bold">er</span><span class="text-body-secondary">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span>
+    </div>
+    <div class="display-6 pb-10">Explore timeless poetry</div>
+  </div>
+  <div class="flex-shrink-1 w-100 d-flex justify-content-center align-items-center p-4">
+    @if (state() !== 'search') {
+      <app-button-icon icon="bi-arrow-left" color="secondary" (click)="back()" class="pe-4"/>
+    } @else if (!hero()) {
+      <div class="text-center fw-bold h6 pe-4 clickable"
+           [animate.enter]="previousStateNotSpecificMode() ? 'show-hide-animation time-700' : ''"
+           [animate.leave]="stateNotSpecificMode() ? 'show-hide-animation leave time-150' : ''"
+           style="letter-spacing: -.03rem;"
+           (click)="resetAll()">
+        V<span class="fw-bold">er</span><span class="text-body-secondary">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span>
+      </div>
+    }
+    <div class="search-bar-container" [class.hero]="hero()">
+      <app-search-bar [state]="state()" (data)="onSearchData($event)"/>
+    </div>
+  </div>
+  <div class="d-flex minh-0 router-container" [class.hero]="hero()">
+    <router-outlet [routerOutletData]="data()"/>
+  </div>
 </div>

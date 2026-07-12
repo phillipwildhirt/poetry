@@ -1,9 +1,9 @@
-import { Component, computed, inject, Signal } from '@angular/core';
-import { TypeaheadTitleResult } from '@app/shared/models/typeahead-result.model';
+import { Component, inject, Signal } from '@angular/core';
+import { isSkeleton, isTitle, TypeaheadTitleResult, TypeaheadSkeletonResult } from '@app/shared/models/typeahead-result.model';
 import { Router, ROUTER_OUTLET_DATA } from '@angular/router';
-import { SkeletonComponent } from '@app/shared/skeleton/skeleton.component';
-import { TitleResultComponent } from '@app/results/title-results/title-result/title-result.component';
+import { TitleResultComponent } from '@app/results/title-results/result/title-result.component';
 import { ListInteractionStateDirective } from '@app/shared/directives/list-interaction-state.directive';
+import { TitleSkeletonComponent } from '@app/results/title-results/result/title-skeleton.component';
 
 @Component({
   selector: 'app-title-results',
@@ -11,8 +11,8 @@ import { ListInteractionStateDirective } from '@app/shared/directives/list-inter
   styleUrl: './title-results.component.scss',
   imports: [
     ListInteractionStateDirective,
-    SkeletonComponent,
-    TitleResultComponent
+    TitleResultComponent,
+    TitleSkeletonComponent
   ],
   host: {
     class: 'flex-grow-1 minw-0 w-100 px-4 overflow-auto',
@@ -20,9 +20,10 @@ import { ListInteractionStateDirective } from '@app/shared/directives/list-inter
 })
 export class TitleResultsComponent {
   private readonly router = inject(Router);
-  readonly data = inject<Signal<{ results: TypeaheadTitleResult[]; term: string } | undefined>>(ROUTER_OUTLET_DATA);
-  readonly skeletonRows = Array.from({ length: 8 });
-  readonly loading = computed(() => this.data() === undefined);
+  readonly data = inject<Signal<{ results: (TypeaheadTitleResult | TypeaheadSkeletonResult)[]; term: string } | undefined>>(ROUTER_OUTLET_DATA);
+
+  readonly isSkeleton = isSkeleton;
+  readonly isTitle = isTitle;
 
   protected openPoem(result: TypeaheadTitleResult): void {
     this.router.navigate(['poem', result.author, result.title]);

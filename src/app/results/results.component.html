@@ -1,34 +1,38 @@
 <div class="w-100">
   <div class="list-group w-100 pb-4">
-    @for (result of data().results; track isSkeleton(result) ? $index : isAuthor(result) ? result.name : result.title) {
-      @if (result.sectionLabel) {
-        <button class="list-group-item list-group-item-secondary py-2 px-3 list-group-item-action" (click)="searchBySection(result.sectionLabel)">
-          <div class="h6 small fst-italic">{{ result.sectionLabel }}<span class="small fw-light"> — tap to search {{ result.sectionLabel }} only</span></div>
-        </button>
-      }
-      @if (isSkeleton(result)) {
-        <div class="list-group-item">
-          <div class="d-flex gap-2 pb-2">
-            <app-skeleton width="100px" height="1.25rem"/>
-            <app-skeleton width="70px" height="1.25rem"/>
-            <app-skeleton width="150px" height="1.25rem"/>
-          </div>
-          <div class="d-flex gap-2">
-            <app-skeleton width="80px" height=".85rem"/>
-            <app-skeleton width="125px" height=".85rem"/>
-          </div>
-        </div>
-      } @else {
-        <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="resultClick(result)">
-        @if (isAuthor(result)) {
-          <app-author-result [result]="result" [term]="data().term"/>
-        } @else if (isTitle(result)) {
-          <app-title-result [result]="result" [term]="data().term"/>
-        } @else if (isLine(result)) {
-          <app-line-result [result]="result" [term]="data().term"/>
+    @if (data().results.length) {
+      @for (result of data().results; track isSkeleton(result) ? $index : isAuthor(result) ? result.name : result.title) {
+        @if (result.sectionLabel) {
+          <button class="list-group-item list-group-item-secondary py-2 px-3 list-group-item-action" (click)="searchBySection(result.sectionLabel)">
+            <div class="h6 small fst-italic">{{ result.sectionLabel }}<span class="small fw-light"> — tap to search {{ result.sectionLabel }} only</span></div>
+          </button>
         }
-        </button>
+        @if (isSkeleton(result)) {
+          <div class="list-group-item">
+            <app-title-skeleton/>
+          </div>
+        } @else {
+          <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="resultClick(result)">
+          @if (isAuthor(result)) {
+            <app-author-result [result]="result" [term]="data().term"/>
+          } @else if (isTitle(result)) {
+            <app-title-result [result]="result" [term]="data().term"/>
+          } @else if (isLine(result)) {
+            <app-line-result [result]="result" [term]="data().term"/>
+          }
+          </button>
+        }
       }
+    } @else {
+      <div class="text-center py-8">
+        @if (isEmpty(data().term)) {
+          <div class="h5 text-danger"><i class="bi-emoji-frown-fill pe-2"></i>The&nbsp;verse has gone&nbsp;silent.</div>
+          <div class="text-body-secondary">Our connection to the Verse Vault seems to have been severed—even the muse has no&nbsp;words.</div>
+        } @else {
+          <div class="h5 text-body-secondary pb-1"><i class="bi-search pe-2"></i>No&nbsp;poems answered the&nbsp;call.</div>
+          <div class="text-body-secondary fst-italic">"{{ data().term }}" echoes unanswered through the poetry&nbsp;vault. Try a different search&nbsp;term.</div>
+        }
+      </div>
     }
   </div>
 </div>
