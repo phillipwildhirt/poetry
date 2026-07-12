@@ -1,22 +1,49 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SearchComponent } from './search.component';
+import { SearchTermService } from '@app/shared/services/search-term.service';
+import { provideRouter } from '@angular/router';
+import { ComponentRef } from '@angular/core';
+import { vi } from 'vitest';
 
 describe('Search', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
+  let componentRef: ComponentRef<SearchComponent>;
+  let searchTermService: SearchTermService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SearchComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SearchComponent);
+    componentRef = fixture.componentRef;
     component = fixture.componentInstance;
+    searchTermService = TestBed.inject(SearchTermService);
     await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should update form value when searchTermService.set$ emits', () => {
+    searchTermService.set$.next('Keats');
+    expect(component.form.value).toBe('Keats');
+  });
+
+  it('should call searchTermService.reset$.next() when form changes in exact-author mode', () => {
+    componentRef.setInput('mode', 'exact-author');
+    const resetSpy = vi.spyOn(searchTermService.reset$, 'next');
+    component.form.setValue('something');
+    expect(resetSpy).toHaveBeenCalled();
+  });
+
+  it('should NOT call searchTermService.reset$.next() when form changes in search mode', () => {
+    componentRef.setInput('mode', 'search');
+    const resetSpy = vi.spyOn(searchTermService.reset$, 'next');
+    component.form.setValue('something');
+    expect(resetSpy).not.toHaveBeenCalled();
+  });
+
+  it('should have empty form value by default', () => {
+    expect(component.form.value).toBe('');
   });
 });
