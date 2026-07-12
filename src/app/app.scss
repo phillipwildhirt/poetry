@@ -1,0 +1,48 @@
+@import 'bootstrap/scss/mixins/breakpoints';
+@import 'src/app/shared/stylesheets/bootstrap/variables';
+
+$animation-time: 700ms;
+
+.search-bar-container {
+  flex: 1 1 30rem;
+  transition: flex-grow $animation-time ease;
+
+  &.hero {
+    @include media-breakpoint-up(sm) {
+      flex: 0 1 30rem;
+    }
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.fade-in {
+  animation: fade-in $animation-time ease forwards;
+}
+
+.hero-container {
+  display: grid;
+  align-items: end;
+  height: 0;
+  min-height: 0;
+  max-height: 0;
+  transition: height $animation-time ease, min-height $animation-time ease, max-height $animation-time ease;
+
+  &.hero {
+    height: 40%;
+    min-height: 40%;
+    max-height: 40%;
+  }
+}
+
+.router-container {
+  flex: .3 1 0;
+  transition: flex-grow $animation-time ease;
+
+  &:not(.hero) {
+    flex:  1 1 0;
+  }
+}

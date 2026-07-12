@@ -70,5 +70,5 @@ export const isLineResults = (results: TypeaheadResult[]): results is TypeaheadL
 /** The searchable kinds — everything except skeleton. */
 export type TypeaheadSearchKind = Exclude<TypeaheadResultKind, TypeaheadResultKind.skeleton>;
 
-/** Search mode: a specific section kind, or 'search' for the combined typeahead, or 'exact-author' for a single author's titles. */
-export type SearchMode = TypeaheadSearchKind | 'search' | 'exact-author';
+/** Search state: a specific section kind, or 'search' for the combined typeahead, or 'exact-author' for a single author's titles. */
+export type AppState = TypeaheadSearchKind | 'search' | 'exact-author' | 'poem';

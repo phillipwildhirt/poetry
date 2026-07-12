@@ -37,4 +37,8 @@ export class PoetryApiService {
       map((res) => (Array.isArray(res) ? res : []))
     );
   }
+
+  getPoem(author: string, title: string): Observable<Poem> {
+    return this.http.get<Poem>(`${BASE_URL}/author,title/${author};${title}`);
+  }
 }

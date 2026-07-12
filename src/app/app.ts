@@ -1,6 +1,6 @@
-import { Component, inject, Signal, signal } from '@angular/core';
+import { Component, computed, inject, Signal, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { SearchMode, TypeaheadAuthorResult, TypeaheadResult, TypeaheadResultKind, TypeaheadSearchKind } from '@app/shared/models/typeahead-result.model';
+import { AppState, TypeaheadAuthorResult, TypeaheadResult, TypeaheadResultKind } from '@app/shared/models/typeahead-result.model';
 import { SearchComponent } from '@app/search/search.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, merge, startWith } from 'rxjs';
@@ -11,9 +11,10 @@ const SECTION_MODES = [
   TypeaheadResultKind.author,
   TypeaheadResultKind.title,
   TypeaheadResultKind.line,
-] as const satisfies SearchMode[];
+] as const satisfies AppState[];
 
-function urlToMode(url: string): SearchMode {
+function urlToMode(url: string): AppState {
+  if (url.startsWith('/poem')) return 'poem';
   const match = SECTION_MODES.find(m => url.startsWith(`/${m}`));
   return match ?? 'search';
 }
@@ -29,21 +30,22 @@ export class App {
   private readonly searchTermService = inject(SearchTermService);
   protected readonly title = signal('Poetry');
   readonly data = signal<{ results: TypeaheadResult[]; term: string } | undefined>(undefined);
+  readonly hero = computed<boolean>(() => this.data() === undefined);
 
-  readonly mode: Signal<SearchMode> = toSignal(
+  readonly state: Signal<AppState> = toSignal(
     merge(
       this.router.events.pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-        map((e): SearchMode => urlToMode(e.urlAfterRedirects)),
+        map((e): AppState => urlToMode(e.urlAfterRedirects)),
       ),
       this.searchTermService.set$.pipe(
-        map((term): SearchMode => term ? 'exact-author' : urlToMode(this.router.url)),
+        map((term): AppState => term ? 'exact-author' : urlToMode(this.router.url)),
       ),
       this.searchTermService.reset$.pipe(
-        map((): SearchMode => urlToMode(this.router.url)),
+        map((): AppState => urlToMode(this.router.url)),
       ),
-    ).pipe(startWith('search' as SearchMode)),
-    { initialValue: 'search' as SearchMode },
+    ).pipe(startWith('search' as AppState)),
+    { initialValue: 'search' as AppState },
   );
 
   onSearchData(event: { results: TypeaheadResult[]; term: string }): void {
@@ -57,13 +59,13 @@ export class App {
     }
 
     this.data.set(event);
-    if (this.mode() === 'search') {
+    if (this.state() === 'search') {
       this.router.navigate(['search']);
     }
   }
 
   protected back(): void {
-    if (this.mode() === 'exact-author') {
+    if (this.state() === 'exact-author') {
       this.searchTermService.set$.next('');
     }
     this.router.navigate(['..']);

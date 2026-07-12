@@ -29,7 +29,7 @@ import { SearchTermService } from '@app/shared/services/search-term.service';
     TitleResultComponent,
   ],
   host: {
-    class: '',
+    class: 'flex-grow-1 minw-0 w-100 px-4 overflow-auto',
   },
 })
 export class ResultsComponent {

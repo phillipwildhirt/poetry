@@ -1,17 +1,18 @@
 import { inject, Injectable } from '@angular/core';
-import { catchError, combineLatest, combineLatestWith, map, Observable, of, shareReplay, startWith, switchMap, take, tap } from 'rxjs';
-import { SearchMode, TypeaheadResult, TypeaheadResultKind, TypeaheadSectionLabel, TypeaheadSkeletonResult } from '@app/shared/models/typeahead-result.model';
+import { catchError, combineLatest, map, Observable, of, startWith, switchMap, take, tap } from 'rxjs';
+import { AppState, TypeaheadResult, TypeaheadResultKind, TypeaheadSectionLabel, TypeaheadSkeletonResult } from '@app/shared/models/typeahead-result.model';
 import { PoetryApiService } from '@app/shared/services/poetry-api.service';
 import { TitleSearchService } from '@app/search/services/title-search.service';
 import { LineSearchService } from '@app/search/services/line-search.service';
 import { AuthorSearchService } from './author-search.service';
 
-export const SECTION_LIMIT: Record<SearchMode, number> = {
+export const SECTION_LIMIT: Record<AppState, number> = {
   search: 5,
   author: 100,
   title: 100,
   line: 100,
   'exact-author': 100,
+  poem: 1,
 };
 
 @Injectable()
@@ -27,12 +28,12 @@ export class SearchService {
       ...(i === 0 ? { sectionLabel: label } : {}),
     }));
 
-  readonly typeahead = (source$: Observable<string>, mode: SearchMode): Observable<TypeaheadResult[]> => {
-    source$.pipe(take(1)).subscribe((term) => console.log(term, mode));
-    const limit = SECTION_LIMIT[mode];
+  readonly typeahead = (source$: Observable<string>, state: AppState): Observable<TypeaheadResult[]> => {
+    source$.pipe(take(1)).subscribe((term) => console.log(term, state));
+    const limit = SECTION_LIMIT[state];
 
     // Title-only: no authors, loading state handled by component, emit results when ready
-    if (mode === TypeaheadResultKind.title) {
+    if (state === TypeaheadResultKind.title) {
       return source$.pipe(
         switchMap((term) => {
           const normalizedTerm = term.toLowerCase().trim();
@@ -58,7 +59,7 @@ export class SearchService {
     }
 
     // Line-only: no authors, loading state handled by component, emit results when ready
-    if (mode === TypeaheadResultKind.line) {
+    if (state === TypeaheadResultKind.line) {
       return source$.pipe(
         switchMap((term) => {
           const normalizedTerm = term.toLowerCase().trim();
@@ -84,7 +85,7 @@ export class SearchService {
       );
     }
 
-    if (mode === 'exact-author') {
+    if (state === 'exact-author') {
       return source$.pipe(
         switchMap((author) =>
           this.poetryApiService.getAuthorTitles(author).pipe(
@@ -105,7 +106,7 @@ export class SearchService {
       );
     }
 
-    if (mode === TypeaheadResultKind.author) {
+    if (state === TypeaheadResultKind.author) {
       return source$.pipe(
         switchMap((term) => {
           return this.authorSearchService.search(term, limit).pipe(
@@ -125,7 +126,7 @@ export class SearchService {
       );
     }
 
-    // search mode: emit as soon as each section resolves; unresolved sections show 5 skeletons
+    // search state: emit as soon as each section resolves; unresolved sections show 5 skeletons
 
     return source$.pipe(
       switchMap((term) => {

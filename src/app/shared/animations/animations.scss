@@ -6,7 +6,7 @@
 Apply the class like this "show-hide-animation time-[duration in ms to take]" and Optional "leave" to hide the animation
 You may need to add you time to the list below
  */
-$show-hide-animation-timings: (150, 200, 300); // <- add times here
+$show-hide-animation-timings: (150, 300, 700); // <- add times here
 .show-hide-animation {
   animation-name            : show-hide-animation-keyframes;
   animation-iteration-count : 1;

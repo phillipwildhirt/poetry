@@ -1,25 +1,31 @@
 <div class="vw-100 vh-100 d-flex align-items-stretch flex-column"
-     [class.justify-content-center]="mode() === 'search'"
-     [class.justify-content-start]="mode() !== 'search'">
-  @if (data() === undefined) {
-    <div class="display-1 text-center pb-10 fw-bold" style="letter-spacing: -.2rem;">
-      V<span class="fw-bold">er</span><span class="text-body-secondary">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span>
-    </div>
+     [class.justify-content-center]="state() === 'search'"
+     [class.justify-content-start]="state() !== 'search'">
+  <div class="align-content-end text-center hero-container"
+       [class.hero]="hero()">
+      <div class="display-1 fw-bold pb-7" style="letter-spacing: -.2rem;">
+        V<span class="fw-bold">er</span><span class="text-body-secondary">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span>
+      </div>
+      <div class="display-6 pb-10">Explore timeless poetry</div>
+  </div>
 <!--    <div class="display-1 text-center pb-10 fw-light text-body-secondary" style="letter-spacing: -.2rem;">V<span class="fw-light">er</span><span class=" fw-bold">s<span class="fw-bold">e<span class="text-body fw-bold">arch</span></span></span></div>-->
-  }
-  <div class="w-100 d-flex align-items-center p-4">
-    @if (mode() !== 'search') {
+  <div class="flex-shrink-1 w-100 d-flex justify-content-center align-items-center p-4">
+    @if (state() !== 'search') {
       <app-button-icon icon="bi-arrow-left" color="secondary" (click)="back()" class="pe-4"/>
-    } @else if (data() !== undefined){
-      <div class="text-center fw-bold h6 pe-4 clickable" style="letter-spacing: -.03rem;" (click)="resetAll()">
+    } @else if (!hero()) {
+      <div class="text-center fw-bold h6 pe-4 clickable"
+           animate.enter="show-hide-animation time-700"
+           animate.leave="show-hide-animation leave time-150"
+           style="letter-spacing: -.03rem;"
+           (click)="resetAll()">
         V<span class="fw-bold">er</span><span class="text-body-secondary">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span>
       </div>
     }
-    <div class="flex-grow-1">
-      <app-search [mode]="mode()" (data)="onSearchData($event)"/>
+    <div class="search-bar-container" [class.hero]="hero()">
+      <app-search [state]="state()" (data)="onSearchData($event)"/>
     </div>
   </div>
-  <div class="flex-grow-1 minw-0 w-100 px-4 overflow-auto">
+  <div class="d-flex minh-0 router-container" [class.hero]="hero()">
     <router-outlet [routerOutletData]="data()"/>
   </div>
 </div>

@@ -20,7 +20,7 @@
       @let existsData = data();
       @if (existsData) {
         @for (result of existsData.results; track result.title) {
-          <button type="button" class="list-group-item text-start" appListInteractionStateDirective>
+          <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="openPoem(result)">
             <app-title-result [result]="result" [term]="existsData.term"/>
           </button>
         }

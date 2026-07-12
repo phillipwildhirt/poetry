@@ -24,8 +24,8 @@ describe('App', () => {
     await fixture.whenStable();
   });
 
-  it('should have initial mode of "search"', () => {
-    expect(app.mode()).toBe('search');
+  it('should have initial state of "search"', () => {
+    expect(app.state()).toBe('search');
   });
 
   it('onSearchData() should set data and navigate to "search" when no exact author match', () => {
@@ -61,7 +61,7 @@ describe('App', () => {
     expect(navigateSpy).toHaveBeenCalledWith(['..']);
   });
 
-  it('back() should call searchTermService.set$.next("") when mode is "exact-author"', () => {
+  it('back() should call searchTermService.set$.next("") when state is "exact-author"', () => {
     const nextSpy = vi.spyOn(searchTermService.set$, 'next');
     searchTermService.set$.next('Keats');
     fixture.detectChanges();

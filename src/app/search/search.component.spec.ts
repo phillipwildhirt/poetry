@@ -29,15 +29,15 @@ describe('Search', () => {
     expect(component.form.value).toBe('Keats');
   });
 
-  it('should call searchTermService.reset$.next() when form changes in exact-author mode', () => {
-    componentRef.setInput('mode', 'exact-author');
+  it('should call searchTermService.reset$.next() when form changes in exact-author state', () => {
+    componentRef.setInput('state', 'exact-author');
     const resetSpy = vi.spyOn(searchTermService.reset$, 'next');
     component.form.setValue('something');
     expect(resetSpy).toHaveBeenCalled();
   });
 
-  it('should NOT call searchTermService.reset$.next() when form changes in search mode', () => {
-    componentRef.setInput('mode', 'search');
+  it('should NOT call searchTermService.reset$.next() when form changes in search state', () => {
+    componentRef.setInput('state', 'search');
     const resetSpy = vi.spyOn(searchTermService.reset$, 'next');
     component.form.setValue('something');
     expect(resetSpy).not.toHaveBeenCalled();
