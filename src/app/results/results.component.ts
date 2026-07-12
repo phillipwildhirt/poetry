@@ -1,13 +1,13 @@
 import { Component, inject, Signal } from '@angular/core';
 import {
-  TypeaheadAuthorResult,
-  TypeaheadLineResult,
+  isAuthor,
+  isLine,
+  isSkeleton,
+  isTitle, TypeaheadAuthorResult,
   TypeaheadResult,
   TypeaheadResultKind,
   TypeaheadSearchKind,
   TypeaheadSectionLabel,
-  TypeaheadSkeletonResult,
-  TypeaheadTitleResult,
 } from '@app/shared/models/typeahead-result.model';
 import { SkeletonComponent } from '@app/shared/skeleton/skeleton.component';
 import { AuthorResultComponent } from '@app/results/author-results/author-result/author-result.component';
@@ -15,6 +15,7 @@ import { LineResultComponent } from '@app/results/line-results/line-result/line-
 import { TitleResultComponent } from '@app/results/title-results/title-result/title-result.component';
 import { Router, ROUTER_OUTLET_DATA } from '@angular/router';
 import { ListInteractionStateDirective } from '@app/shared/directives/list-interaction-state.directive';
+import { SearchTermService } from '@app/shared/services/search-term.service';
 
 @Component({
   selector: 'app-results',
@@ -25,37 +26,23 @@ import { ListInteractionStateDirective } from '@app/shared/directives/list-inter
     SkeletonComponent,
     AuthorResultComponent,
     LineResultComponent,
-    TitleResultComponent
+    TitleResultComponent,
   ],
   host: {
-    class: 'flex-grow-1 minw-0 w-100 p-4 overflow-auto',
+    class: '',
   },
 })
 export class ResultsComponent {
   private readonly router = inject(Router);
-  readonly data =
-    inject<Signal<{ results: TypeaheadResult[]; term: string }>>(
-      ROUTER_OUTLET_DATA,
-    );
+  private readonly searchTermService = inject(SearchTermService);
+  readonly data = inject<Signal<{ results: TypeaheadResult[]; term: string }>>(ROUTER_OUTLET_DATA,);
 
-  isAuthor(result: TypeaheadResult): result is TypeaheadAuthorResult {
-    return result && result.kind === TypeaheadResultKind.author;
-  }
-
-  isTitle(result: TypeaheadResult): result is TypeaheadTitleResult {
-    return result && result.kind === TypeaheadResultKind.title;
-  }
-
-  isLine(result: TypeaheadResult): result is TypeaheadLineResult {
-    return result && result.kind === TypeaheadResultKind.line;
-  }
-
-  isSkeleton(result: TypeaheadResult): result is TypeaheadSkeletonResult {
-    return result && result.kind === TypeaheadResultKind.skeleton;
-  }
+  readonly isAuthor = isAuthor;
+  readonly isTitle = isTitle;
+  readonly isLine = isLine;
+  readonly isSkeleton = isSkeleton;
 
   protected searchBySection(sectionLabel: TypeaheadSectionLabel): void {
-    const term = this.data()?.term;
     const routeMap: Partial<
       Record<TypeaheadSectionLabel, TypeaheadSearchKind>
     > = {
@@ -65,7 +52,14 @@ export class ResultsComponent {
     };
     const path = routeMap[sectionLabel];
     if (path) {
-      this.router.navigate([path], { queryParams: { q: term } });
+      this.router.navigate([path]);
+    }
+  }
+
+  protected resultClick(result: TypeaheadResult): void {
+    if (isAuthor(result)) {
+      this.searchTermService.set$.next(result.name);
+      this.router.navigate(['author']);
     }
   }
 }

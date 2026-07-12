@@ -26,15 +26,12 @@
 @import '../../../../../node_modules/bootstrap/scss/forms/form-range';
 @import '../../../../../node_modules/bootstrap/scss/forms/floating-labels';
 @import './form-validation';
-
 @import '../../../../../node_modules/bootstrap/scss/buttons';
-// @import './dark/buttons';
-// @import '../../button-icon/button-icon';
-
-// @import './dark/buttons-icon';
-
+@import './dark/buttons';
+@import '../../button-icon/button-icon';
+@import './dark/buttons-icon';
 @import './button-borderless';
-// @import './dark/button-borderless';
+@import './dark/button-borderless';
 
 @import '../../../../../node_modules/bootstrap/scss/transitions';
 @import '../../../../../node_modules/bootstrap/scss/dropdown';

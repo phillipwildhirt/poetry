@@ -11,6 +11,7 @@ export const SECTION_LIMIT: Record<SearchMode, number> = {
   author: 100,
   title: 100,
   line: 100,
+  'exact-author': 100,
 };
 
 @Injectable()
@@ -83,11 +84,30 @@ export class SearchService {
       );
     }
 
+    if (mode === 'exact-author') {
+      return source$.pipe(
+        switchMap((author) =>
+          this.poetryApiService.getAuthorTitles(author).pipe(
+            map((titles) =>
+              titles.map(
+                (t, i) =>
+                  ({
+                    kind: TypeaheadResultKind.title,
+                    title: t.title,
+                    author,
+                    ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.title } : {}),
+                  }) satisfies TypeaheadResult,
+              ),
+            ),
+            catchError(() => of([])),
+          ),
+        ),
+      );
+    }
+
     if (mode === TypeaheadResultKind.author) {
       return source$.pipe(
         switchMap((term) => {
-          const normalizedTerm = term.toLowerCase().trim();
-          if (!normalizedTerm) return of([]);
           return this.authorSearchService.search(term, limit).pipe(
             map((authors) =>
               authors.map(

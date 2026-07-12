@@ -16,10 +16,7 @@ import { ListInteractionStateDirective } from '@app/shared/directives/list-inter
   ],
 })
 export class LineResultsComponent {
-  readonly data =
-    inject<
-      Signal<{ results: TypeaheadLineResult[]; term: string } | undefined>
-    >(ROUTER_OUTLET_DATA);
+  readonly data = inject<Signal<{ results: TypeaheadLineResult[]; term: string } | undefined>>(ROUTER_OUTLET_DATA);
   readonly skeletonRows = Array.from({ length: 8 });
   readonly loading = computed(() => this.data() === undefined);
 }

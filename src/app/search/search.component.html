@@ -1,8 +1,8 @@
-<div class="p-4">
+<div class="">
   <form>
     <input class="form-control"
            [formControl]="form"
-           placeholder="Search by author, title, or poem text"
+           [placeholder]="'Search by ' + (mode() === TypeaheadResultKind.author ? 'author' : mode() === TypeaheadResultKind.title ? 'title' : mode() === TypeaheadResultKind.line ? 'poem text' : 'author, title, or poem text')"
            (focus)="focus$.next($any($event.target).value)"/>
   </form>
 </div>
