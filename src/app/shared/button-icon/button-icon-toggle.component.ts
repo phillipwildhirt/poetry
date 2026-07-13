@@ -72,7 +72,7 @@ export class ButtonIconToggleComponent extends ButtonIconComponent implements On
 
   /**
    * Optional second theme-color for the toggled on/true state of a TOGGLE icon btn
-   * i.e. 'secondary', 'dpsblue'
+   * i.e. 'secondary', 'primary'
    * @important If color and colorToggled are the same, based on contrast ratio, the 'active' color is black or white. This essentially creates a btn-ic-toggle that only changes icons.
    * @param string - theme color string
    */

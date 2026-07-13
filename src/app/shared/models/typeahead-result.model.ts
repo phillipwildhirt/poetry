@@ -11,6 +11,19 @@ export enum TypeaheadSectionLabel {
   line     = 'Poems by Text',
 }
 
+export const sectionLabelRouteMap: Partial<Record<TypeaheadSectionLabel, TypeaheadSearchKind>> = {
+  [TypeaheadSectionLabel.author]: TypeaheadResultKind.author,
+  [TypeaheadSectionLabel.title] : TypeaheadResultKind.title,
+  [TypeaheadSectionLabel.line]  : TypeaheadResultKind.line,
+};
+
+export const kindSectionLabelMap: Partial<Record<TypeaheadResultKind, TypeaheadSectionLabel>> = {
+  [TypeaheadResultKind.author]: TypeaheadSectionLabel.author,
+  [TypeaheadResultKind.title] : TypeaheadSectionLabel.title,
+  [TypeaheadResultKind.line]  : TypeaheadSectionLabel.line,
+};
+
+
 // -----------------------------------------------------------------------
 // TYPEAHEAD RESULT TYPES
 // Dividers are gone — section labels are rendered via CSS ::before
@@ -21,6 +34,7 @@ export interface TypeaheadAuthorResult {
   kind: TypeaheadResultKind.author;
   name: string;
   sectionLabel?: TypeaheadSectionLabel.author;
+  more?: TypeaheadSectionLabel.author;
 }
 
 export interface TypeaheadTitleResult {
@@ -29,6 +43,7 @@ export interface TypeaheadTitleResult {
   author: string;
   line?: string;
   sectionLabel?: TypeaheadSectionLabel.title;
+  more?: TypeaheadSectionLabel.title;
 }
 
 export interface TypeaheadLineResult {
@@ -37,6 +52,7 @@ export interface TypeaheadLineResult {
   author: string;
   line: string;
   sectionLabel?: TypeaheadSectionLabel.line;
+  more?: TypeaheadSectionLabel.line;
 }
 
 export interface TypeaheadSkeletonResult {

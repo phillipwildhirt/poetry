@@ -1,6 +1,14 @@
 <div>
-    <input class="form-control"
-           [formControl]="form"
-           [placeholder]="'Search by ' + (state() === TypeaheadResultKind.author ? 'author' : state() === TypeaheadResultKind.title ? 'title' : state() === TypeaheadResultKind.line ? 'poem text' : 'author, title, or poem text')"
-           (focus)="focus$.next($any($event.target).value)"/>
+  <label for="search-input" class="visually-hidden">{{ searchLabel() }}</label>
+  <input id="search-input"
+         class="form-control"
+         type="search"
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"
+         [attr.aria-label]="searchLabel()"
+         [placeholder]="searchLabel()"
+         [formControl]="form"
+         (focus)="focus$.next($any($event.target).value)"/>
 </div>

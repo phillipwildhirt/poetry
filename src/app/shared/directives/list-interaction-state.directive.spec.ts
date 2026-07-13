@@ -41,4 +41,22 @@ describe('ListInteractionStateDirective', () => {
     fixture.detectChanges();
     expect((el.nativeElement as HTMLElement).classList).not.toContain('active');
   });
+
+  it('should not have "active" class initially', () => {
+    expect((el.nativeElement as HTMLElement).classList).not.toContain('active');
+  });
+
+  it('should remain active if mouseenter fires multiple times without mouseleave', () => {
+    el.triggerEventHandler('mouseenter', null);
+    el.triggerEventHandler('mouseenter', null);
+    fixture.detectChanges();
+    expect((el.nativeElement as HTMLElement).classList).toContain('active');
+  });
+
+  it('should not throw on mouseleave without prior mouseenter', () => {
+    expect(() => {
+      el.triggerEventHandler('mouseleave', null);
+      fixture.detectChanges();
+    }).not.toThrow();
+  });
 });

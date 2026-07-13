@@ -23,7 +23,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
         <ng-template [ngTemplateOutlet]="getTemplateRef(tooltip)" [ngTemplateOutletContext]="getTemplateRef(tooltip)"/>
       </ng-template>
       <button #btn
-              [class]="'text-nowrap btn-ic btn-ic-text flex-center align-items-center '
+              [class]="'text-nowrap btn-ic btn-ic-text d-flex justify-content-center align-items-center '
                      + (color.length ? ' btn-ic-' + color : ' ')
                      + (isTogglerBtn ? ' btn-ic-tog-' + colorToggled : ' ')
                      + _size

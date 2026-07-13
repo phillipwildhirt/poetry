@@ -8,12 +8,12 @@ import { AuthorSearchService } from './author-search.service';
 import { isEmpty } from 'lodash-es';
 
 export const SECTION_LIMIT: Record<AppState, number> = {
-  search: 5,
-  author: 100,
-  title: 100,
-  line: 100,
+  search        : 5,
+  author        : 100,
+  title         : 100,
+  line          : 100,
   'exact-author': 100,
-  poem: 1,
+  poem          : 1,
 };
 
 @Injectable()
@@ -30,7 +30,6 @@ export class SearchService {
     }));
 
   readonly typeahead = (source$: Observable<string>, state: AppState): Observable<TypeaheadResult[]> => {
-    // source$.pipe(take(1)).subscribe((term) => console.log(term, state));
     const limit = SECTION_LIMIT[state];
 
     // Title-only: no authors, loading state handled by component, emit results when ready
@@ -39,19 +38,13 @@ export class SearchService {
         switchMap((term) => {
           const normalizedTerm = term.toLowerCase().trim();
           return this.titleSearchService.search(term, limit).pipe(
-            map((titles) =>
-              titles
-                .filter((t) => t.title.toLowerCase().includes(normalizedTerm))
-                // .slice(0, limit)
-                .map(
-                  (t, i) =>
-                    ({
-                      kind: TypeaheadResultKind.title,
-                      title: t.title,
-                      author: t.author,
-                      ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.title } : {}),
-                    }) satisfies TypeaheadResult,
-                ),
+            map((titles) => titles.filter((t) => t.title.toLowerCase().includes(normalizedTerm))/*.slice(0, limit) */.map((t, i) => ({
+                  kind  : TypeaheadResultKind.title,
+                  title : t.title,
+                  author: t.author,
+                  ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.title } : {}),
+                }) satisfies TypeaheadResult,
+              ),
             ),
             catchError(() => of([])),
             startWith(null),
@@ -68,19 +61,15 @@ export class SearchService {
           const normalizedTerm = term.toLowerCase().trim();
           if (!normalizedTerm) return of([]);
           return this.lineSearchService.search(term, limit).pipe(
-            map((poems) =>
-              poems /*.slice(0, limit)*/
-                .map(
-                  (poem, i) =>
-                    ({
-                      kind: TypeaheadResultKind.line,
-                      title: poem.title,
-                      author: poem.author,
-                      //todo don't like this
-                      line: poem.lines.find((l) => l.toLowerCase().includes(normalizedTerm)) ?? '',
-                      ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.line } : {}),
-                    }) satisfies TypeaheadResult,
-                ),
+            map((poems) => poems /*.slice(0, limit)*/.map((poem, i) => ({
+                  kind  : TypeaheadResultKind.line,
+                  title : poem.title,
+                  author: poem.author,
+                  //todo don't like this
+                  line: poem.lines.find((l) => l.toLowerCase().includes(normalizedTerm)) ?? '',
+                  ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.line } : {}),
+                }) satisfies TypeaheadResult,
+              ),
             ),
             catchError(() => of([])),
             startWith(null),
@@ -94,22 +83,19 @@ export class SearchService {
       return source$.pipe(
         switchMap((author) => {
           return this.poetryApiService.getAuthorTitles(author).pipe(
-            map((titles) =>
-              titles.map(
-                (t, i) =>
-                  ({
-                    kind: TypeaheadResultKind.title,
-                    title: t.title,
-                    author,
-                    ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.title } : {}),
-                  }) satisfies TypeaheadResult,
+            map((titles) => titles.map((t, i) => ({
+                  kind : TypeaheadResultKind.title,
+                  title: t.title,
+                  author,
+                  ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.title } : {}),
+                }) satisfies TypeaheadResult,
               ),
             ),
             catchError(() => of([])),
             startWith(null),
           );
-      }),
-      map(titles => titles ?? this.skeletons(limit)),
+        }),
+        map(titles => titles ?? this.skeletons(limit)),
       );
     }
 
@@ -118,13 +104,11 @@ export class SearchService {
         switchMap((term) => {
           return this.authorSearchService.search(term, limit).pipe(
             map((authors) =>
-              authors.map(
-                (author, i) =>
-                  ({
-                    kind: TypeaheadResultKind.author,
-                    name: author,
-                    ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.author } : {}),
-                  }) satisfies TypeaheadResult,
+              authors.map((author, i) => ({
+                  kind: TypeaheadResultKind.author,
+                  name: author,
+                  ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.author } : {}),
+                }) satisfies TypeaheadResult,
               ),
             ),
             catchError(() => of([])),
@@ -142,62 +126,55 @@ export class SearchService {
         const normalizedTerm = term.toLowerCase().trim();
 
         const authors$ = this.authorSearchService.search(term, limit).pipe(
-          map((authors) =>
-            authors.map(
-              (author, i) =>
-                ({
-                  kind: TypeaheadResultKind.author,
-                  name: author,
-                  ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.author } : {}),
-                }) satisfies TypeaheadResult,
-            ),
-          ),
+          map((authors) => authors.map((author, i) => ({
+            kind: TypeaheadResultKind.author,
+            name: author,
+            ...(i === 0
+                ? { sectionLabel: TypeaheadSectionLabel.author }
+                : i === 4
+                  ? { more: TypeaheadSectionLabel.author }
+                  : {}),
+          }) satisfies TypeaheadResult)),
           catchError(() => of([] as TypeaheadResult[])),
           startWith(null),
         );
 
         const titles$ = normalizedTerm
-          ? this.titleSearchService.search(term, limit).pipe(
-              map((titles) =>
-                titles
-                  .filter((t) => t.title.toLowerCase().includes(normalizedTerm))
-                  .map(
-                    (t, i) =>
-                      ({
-                        kind: TypeaheadResultKind.title,
-                        title: t.title,
-                        author: t.author,
-                        ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.title } : {}),
-                      }) satisfies TypeaheadResult,
-                  ),
-              ),
-              catchError(() => of([] as TypeaheadResult[])),
-              startWith(null),
-            )
-          : of([]);
+                        ? this.titleSearchService.search(term, limit).pipe(
+                          map((titles) => titles.filter((t) => t.title.toLowerCase().includes(normalizedTerm)).map((t, i) => ({
+                            kind  : TypeaheadResultKind.title,
+                            title : t.title,
+                            author: t.author,
+                            ...(i === 0
+                                ? { sectionLabel: TypeaheadSectionLabel.title }
+                                : i === 4
+                                  ? { more: TypeaheadSectionLabel.title }
+                                  : {}),
+                          }) satisfies TypeaheadResult)),
+                          catchError(() => of([] as TypeaheadResult[])),
+                          startWith(null),
+                        )
+                        : of([]);
 
         const lines$ = normalizedTerm
-          ? this.lineSearchService.search(term, limit).pipe(
-              map((poems) =>
-                poems.map(
-                  (poem, i) =>
-                    ({
-                      kind: TypeaheadResultKind.line,
-                      title: poem.title,
-                      author: poem.author,
-                      line: poem.lines.find((l) => l.toLowerCase().includes(normalizedTerm)) ?? '',
-                      ...(i === 0 ? { sectionLabel: TypeaheadSectionLabel.line } : {}),
-                    }) satisfies TypeaheadResult,
-                ),
-              ),
-              catchError(() => of([] as TypeaheadResult[])),
-              startWith(null),
-            )
-          : of([]);
+                       ? this.lineSearchService.search(term, limit).pipe(
+                         map((poems) => poems.map((poem, i) => ({
+                           kind  : TypeaheadResultKind.line,
+                           title : poem.title,
+                           author: poem.author,
+                           line  : poem.lines.find((l) => l.toLowerCase().includes(normalizedTerm)) ?? '',
+                           ...(i === 0
+                               ? { sectionLabel: TypeaheadSectionLabel.line }
+                               : i === 4
+                                 ? { more: TypeaheadSectionLabel.line }
+                                 : {}),
+                         }) satisfies TypeaheadResult)),
+                        catchError(() => of([] as TypeaheadResult[])),
+                        startWith(null),
+                       )
+                       : of([]);
 
         return combineLatest([authors$, titles$, lines$]).pipe(
-          // tap((v) => console.log(v)),
-
           map(([authors, titles, lines]) => [
             ...(authors ?? this.skeletons(limit, TypeaheadSectionLabel.author)),
             ...(titles ?? this.skeletons(limit, TypeaheadSectionLabel.title)),

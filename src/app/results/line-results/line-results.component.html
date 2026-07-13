@@ -1,18 +1,34 @@
 <div class="w-100 minw-100 minh-100">
-  <div class="list-group">
+  <div class="list-group"
+           role="listbox"
+           aria-label="Line search results"
+           appListKeyboardNav>
     @let existsData = data();
-    @if (existsData) {
+    @if (existsData && existsData.results.length) {
       @for (result of existsData.results; track $index) {
         @if (isSkeleton(result)) {
-          <div class="list-group-item">
+          <div class="list-group-item"
+               role="option"
+               aria-busy="true"
+               aria-label="Loading result">
             <app-line-skeleton/>
           </div>
         } @else if (isLine(result)) {
-          <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="openPoem(result)">
+          <button type="button"
+                  class="list-group-item text-start"
+                  role="option"
+                  [attr.aria-label]="'Poem: ' + result.title + ' by ' + result.author"
+                  [attr.tabindex]="$first ? 0 : -1"
+                  appListInteractionStateDirective
+                  (click)="openPoem(result)"
+                  (keydown.enter)="openPoem(result)"
+                  (keydown.space)="openPoem(result)">
             <app-line-result [result]="result" [term]="existsData.term"/>
           </button>
         }
       }
+    } @else if (existsData) {
+      <app-results-empty-state [data]="existsData"/>
     }
   </div>
 </div>

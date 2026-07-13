@@ -9,8 +9,6 @@ $theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
 //\$([a-z-0-9]+)(-[a-z]+)(-[a-z]+)
 //  "$1": \$$1$2$3
 $theme-colors-text: (
-  // "dpsblue"               : $dpsblue-text-emphasis,
-  // "ebizteal"              : $ebizteal-text-emphasis,
   "gray-400"              : $gray-400-text-emphasis,
   "primary"               : $primary-text-emphasis,
   "secondary"             : $secondary-text-emphasis,
@@ -24,8 +22,6 @@ $theme-colors-text: (
 
 // scss-docs-start theme-bg-subtle-map
 $theme-colors-bg-subtle: (
-  // "dpsblue"               : $dpsblue-bg-subtle,
-  // "ebizteal"              : $ebizteal-bg-subtle,
   "gray-400"              : $gray-400-bg-subtle,
   "primary"               : $primary-bg-subtle,
   "secondary"             : $secondary-bg-subtle,
@@ -39,8 +35,6 @@ $theme-colors-bg-subtle: (
 
 // scss-docs-start theme-border-subtle-map
 $theme-colors-border-subtle: (
-  // "dpsblue"               : $dpsblue-border-subtle,
-  // "ebizteal"              : $ebizteal-border-subtle,
   "gray-400"              : $gray-400-border-subtle,
   "primary"               : $primary-border-subtle,
   "secondary"             : $secondary-border-subtle,
@@ -59,8 +53,6 @@ $theme-colors-border-subtle-dark: null !default;
 @if $enable-dark-mode {
   // scss-docs-start theme-text-dark-map
   $theme-colors-text-dark: (
-    // "dpsblue"           : $dpsblue-text-emphasis-dark,
-    // "ebizteal"          : $ebizteal-text-emphasis-dark,
     "gray-400"          : $gray-400-text-emphasis-dark,
     "primary"           : $primary-text-emphasis-dark,
     "secondary"         : $secondary-text-emphasis-dark,
@@ -74,8 +66,6 @@ $theme-colors-border-subtle-dark: null !default;
 
   // scss-docs-start theme-bg-subtle-dark-map
   $theme-colors-bg-subtle-dark: (
-    // "dpsblue"           : $dpsblue-bg-subtle-dark,
-    // "ebizteal"          : $ebizteal-bg-subtle-dark,
     "gray-400"          : $gray-400-bg-subtle-dark,
     "primary"           : $primary-bg-subtle-dark,
     "secondary"         : $secondary-bg-subtle-dark,
@@ -89,8 +79,6 @@ $theme-colors-border-subtle-dark: null !default;
 
   // scss-docs-start theme-border-subtle-dark-map
   $theme-colors-border-subtle-dark: (
-    // "dpsblue"           : $dpsblue-border-subtle-dark,
-    // "ebizteal"          : $ebizteal-border-subtle-dark,
     "gray-400"          : $gray-400-border-subtle-dark,
     "primary"           : $primary-border-subtle-dark,
     "secondary"         : $secondary-border-subtle-dark,
@@ -124,8 +112,6 @@ $utilities-text: map.merge(
 $utilities-text-colors: map-loop($utilities-text, rgba-css-var, "$key", "text");
 
 $utilities-text-emphasis-colors: (
-  // "dpsblue-emphasis"           : var(--#{$prefix}dpsblue-text-emphasis),
-  // "ebizteal-emphasis"          : var(--#{$prefix}ebizteal-text-emphasis),
   "gray-400-emphasis"          : var(--#{$prefix}gray-400-text-emphasis),
   "primary-emphasis"           : var(--#{$prefix}primary-text-emphasis),
   "secondary-emphasis"         : var(--#{$prefix}secondary-text-emphasis),
@@ -149,8 +135,6 @@ $utilities-bg: map.merge(
 $utilities-bg-colors: map-loop($utilities-bg, rgba-css-var, "$key", "bg");
 
 $utilities-bg-subtle: (
-  // "dpsblue-subtle"           : var(--#{$prefix}dpsblue-bg-subtle),
-  // "ebizteal-subtle"          : var(--#{$prefix}ebizteal-bg-subtle),
   "gray-400-subtle"          : var(--#{$prefix}gray-400-bg-subtle),
   "primary-subtle"           : var(--#{$prefix}primary-bg-subtle),
   "secondary-subtle"         : var(--#{$prefix}secondary-bg-subtle),
@@ -173,8 +157,6 @@ $utilities-border: map.merge(
 $utilities-border-colors: map-loop($utilities-border, rgba-css-var, "$key", "border");
 
 $utilities-border-subtle: (
-  // "dpsblue-subtle"           : var(--#{$prefix}dpsblue-border-subtle),
-  // "ebizteal-subtle"          : var(--#{$prefix}ebizteal-border-subtle),
   "gray-400-subtle"          : var(--#{$prefix}gray-400-border-subtle),
   "primary-subtle"           : var(--#{$prefix}primary-border-subtle),
   "secondary-subtle"         : var(--#{$prefix}secondary-border-subtle),

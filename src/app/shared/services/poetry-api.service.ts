@@ -39,6 +39,6 @@ export class PoetryApiService {
   }
 
   getPoem(author: string, title: string): Observable<Poem> {
-    return this.http.get<Poem>(`${BASE_URL}/author,title/${author};${title}`);
+    return this.http.get<Poem[]>(`${BASE_URL}/author,title/${author};${title}`).pipe(map(res => res[0]));
   }
 }

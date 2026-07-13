@@ -37,7 +37,7 @@ $cursors: ('pointer', 'default', 'progress', 'wait', 'no-drop');
 
 /**  White Space   */
 
-$white-spaces: ('pre', 'initial', 'pre-line', 'pre-wrap', 'nowrap');
+$white-spaces: ('pre', 'initial', 'pre-line', 'pre-wrap', 'nowrap', 'collapse');
 
 @each $white-space in $white-spaces {
   .#{$white-space}-white-space {
@@ -58,18 +58,6 @@ $white-spaces: ('pre', 'initial', 'pre-line', 'pre-wrap', 'nowrap');
 }
 
 :root {
-  // @include color-mode(light) {
-  //   @each $shade, $value in $dpsblue-palette {
-  //     --#{$shade}: #{$value};
-  //   }
-  // }
-  // @include color-mode(dark) {
-  //   @each $shade, $value in $dpsblue-dark-palette {
-  //     --#{$shade}: #{$value};
-  //   }
-  // }
-  // }
-
   @each $shade, $value in $gray-palette {
     --#{$prefix}#{$shade}: #{$value};
   }
@@ -81,17 +69,6 @@ $white-spaces: ('pre', 'initial', 'pre-line', 'pre-wrap', 'nowrap');
   @each $shade, $value in $success-palette {
     --#{$prefix}#{$shade}: #{$value};
   }
-
-  // @include color-mode(light) {
-  //   @each $shade, $value in $dpsblue-palette {
-  //     --#{$shade}-rgb: #{to-rgb($value)};
-  //   }
-  // }
-  // @include color-mode(dark) {
-  //   @each $shade, $value in $dpsblue-dark-palette {
-  //     --#{$shade}-rgb: #{to-rgb($value)};
-  //   }
-  // }
 
   @each $shade, $value in $gray-palette {
     --#{$prefix}#{$shade}-rgb: #{to-rgb($value)};

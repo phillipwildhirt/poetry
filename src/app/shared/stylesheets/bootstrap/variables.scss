@@ -9,8 +9,8 @@
 @import '../../../../../node_modules/bootstrap/scss/mixins/buttons';
 
 
-$primary                   : #007bff;
-$secondary                 : #6c757d;
+$primary                   : #695548;
+$secondary                 : #7d736c;
 $success                   : #198754;
 $warning                   : #ffc107;
 $warning-mustard           : #c69500;
@@ -41,12 +41,6 @@ $color-levels: (
 
 $primary-palette       : color-palette.create-color-palette($color-levels, $primary, "primary");
 $success-palette       : color-palette.create-color-palette($color-levels, $success, "success");
-// $dpsblue-palette       : color-palette.create-color-palette($color-levels, $dpsblue, "dpsblue");
-// $dpsblue-dark-palette  : color-palette.create-color-palette($color-levels, $dpsblue-dark, "dpsblue");
-
-
-// $ebizteal-palette      : color-palette.create-color-palette($color-levels, $ebizteal, "ebizteal");
-
 
 $non-theme-color-levels: (
   "100": -8.8,
@@ -125,7 +119,7 @@ $body-emphasis-color  : $black;
 // to see dark mode... uncomment:
 // $color-mode-type: media-query;
 
-
+$body-bg                       : #f6f3f1;
 $body-color-dark               : $gray-200;
 $body-bg-dark                  : color.mix($black, $white, 95%);
 $body-secondary-color-dark     : rgba($body-color-dark, .75);
@@ -139,8 +133,6 @@ $headings-color-dark           : inherit;
 
 
 // scss-docs-start theme-text-variables
-// $dpsblue-text-emphasis           : shade-color(map.get($dpsblue-palette, "dpsblue"), 60%);
-// $ebizteal-text-emphasis          : shade-color(map.get($ebizteal-palette, "ebizteal"), 50%);
 $gray-400-text-emphasis          : shade-color($gray-400, 60%);
 $primary-text-emphasis           : shade-color($primary, 60%);
 $secondary-text-emphasis         : shade-color($secondary, 60%);
@@ -152,8 +144,6 @@ $darknlight-text-emphasis        : shade-color($darknlight, 60%);
 // scss-docs-end theme-text-variables
 
 // scss-docs-start theme-bg-subtle-variables
-// $dpsblue-bg-subtle           : tint-color(map.get($dpsblue-palette, "dpsblue"), 80%);
-// $ebizteal-bg-subtle          : tint-color(map.get($ebizteal-palette, "ebizteal"), 80%);
 $gray-400-bg-subtle          : tint-color($gray-400, 80%);
 $primary-bg-subtle           : tint-color($primary, 80%);
 $secondary-bg-subtle         : tint-color($secondary, 80%);
@@ -165,8 +155,6 @@ $darknlight-bg-subtle        : tint-color($darknlight, 80%);
 // scss-docs-end theme-bg-subtle-variables
 
 // scss-docs-start theme-border-subtle-variables
-// $dpsblue-border-subtle           : tint-color(map.get($dpsblue-palette, "dpsblue"), 60%);
-// $ebizteal-border-subtle          : tint-color(map.get($ebizteal-palette, "ebizteal"), 60%);
 $gray-400-border-subtle          : tint-color($gray-400, 60%);
 $primary-border-subtle           : tint-color($primary, 60%);
 $secondary-border-subtle         : tint-color($secondary, 60%);
@@ -177,8 +165,6 @@ $dark-border-subtle              : tint-color($dark, 60%);
 $darknlight-border-subtle        : tint-color($darknlight, 60%);
 // scss-docs-end theme-border-subtle-variables
 
-// $dpsblue-text-emphasis-dark           : tint-color(map.get($dpsblue-dark-palette, "dpsblue"), 40%);
-// $ebizteal-text-emphasis-dark          : tint-color(map.get($ebizteal-palette, "ebizteal"), 40%);
 $gray-400-text-emphasis-dark          : tint-color($gray-400, 40%);
 $primary-text-emphasis-dark           : tint-color($primary, 40%);
 $secondary-text-emphasis-dark         : tint-color($secondary, 40%);
@@ -190,8 +176,6 @@ $darknlight-text-emphasis-dark        : tint-color($darknlight-dark, 40%);
 // scss-docs-end theme-text-dark-variables
 
 // scss-docs-start theme-bg-subtle-dark-variables
-// $dpsblue-bg-subtle-dark           : shade-color(map.get($dpsblue-dark-palette, "dpsblue"), 80%);
-// $ebizteal-bg-subtle-dark          : shade-color(map.get($ebizteal-palette, "ebizteal"), 80%);
 $gray-400-bg-subtle-dark          : shade-color($gray-400, 80%);
 $primary-bg-subtle-dark           : shade-color($primary, 80%);
 $secondary-bg-subtle-dark         : shade-color($secondary, 80%);
@@ -203,8 +187,6 @@ $darknlight-bg-subtle-dark        : shade-color($darknlight-dark, 80%);
 // scss-docs-end theme-bg-subtle-dark-variables
 
 // scss-docs-start theme-border-subtle-dark-variables
-// $dpsblue-border-subtle-dark           : shade-color(map.get($dpsblue-dark-palette, "dpsblue"), 40%);
-// $ebizteal-border-subtle-dark          : shade-color(map.get($ebizteal-palette, "ebizteal"), 40%);
 $gray-400-border-subtle-dark          : shade-color($gray-400, 40%);
 $primary-border-subtle-dark           : shade-color($primary, 40%);
 $secondary-border-subtle-dark         : shade-color($secondary, 40%);
@@ -220,8 +202,6 @@ Add Custom Theme Colors from above here if you need the ENTIRE suite of buttons,
 @note: If you ONLY need to use bg-<color> or text-<color>, add further below in $extra-use-colors.
  */
 $theme-colors: (
-  // "dpsblue"           : map.get($dpsblue-palette, "dpsblue"),
-  // "ebizteal"          : map.get($ebizteal-palette, "ebizteal"),
   "gray-400"          : $gray-400,
   "primary"           : $primary,
   "secondary"         : $secondary,
@@ -251,9 +231,6 @@ $extra-use-colors: (
   "success"              : #198754, /* leave me, I'm used in a query/task/list/dropdown */
 );
 
-/*
-dpsgreen buttons need to remain white text; this is a slight adjustment to accomplish that.
- */
 $min-contrast-ratio: 2.2;
 
 /*

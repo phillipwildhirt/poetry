@@ -3,7 +3,9 @@ import { isLine, isSkeleton, TypeaheadLineResult, TypeaheadSkeletonResult } from
 import { Router, ROUTER_OUTLET_DATA } from '@angular/router';
 import { LineResultComponent } from '@app/results/line-results/result/line-result.component';
 import { ListInteractionStateDirective } from '@app/shared/directives/list-interaction-state.directive';
+import { ListKeyboardNavDirective } from '@app/shared/directives/list-keyboard-nav.directive';
 import { LineSkeletonComponent } from '@app/results/line-results/result/line-skeleton.component';
+import { ResultsEmptyStateComponent } from '../results-empty-state.component';
 
 @Component({
   selector: 'app-line-results',
@@ -11,8 +13,10 @@ import { LineSkeletonComponent } from '@app/results/line-results/result/line-ske
   styleUrl: './line-results.component.scss',
   imports: [
     ListInteractionStateDirective,
+    ListKeyboardNavDirective,
     LineResultComponent,
-    LineSkeletonComponent
+    LineSkeletonComponent,
+    ResultsEmptyStateComponent
   ],
   host: {
     class: 'flex-grow-1 minw-0 w-100 px-4 overflow-auto',

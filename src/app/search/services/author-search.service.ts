@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable, of, shareReplay } from 'rxjs';
 import { PoetryApiService } from '@app/shared/services/poetry-api.service';
-import { TypeaheadAuthorResult, TypeaheadResultKind } from '@app/shared/models/typeahead-result.model';
 
-@Injectable()
+@Injectable({providedIn: 'root'  })
 export class AuthorSearchService {
   private readonly poetryApiService = inject(PoetryApiService);
 

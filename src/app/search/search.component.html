@@ -1,30 +1,55 @@
 <div class="vw-100 vh-100 d-flex align-items-stretch flex-column"
      [class.justify-content-center]="hero()"
      [class.justify-content-start]="!hero()">
-  <div class="align-content-end text-center hero-container"
-       [class.hero]="hero()">
-    <div class="display-1 fw-bold pb-7" style="letter-spacing: -.2rem;">
-      V<span class="fw-bold">er</span><span class="text-body-secondary">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span>
+
+  <header class="align-content-end text-center hero-container"
+          [class.hero]="hero()"
+          role="banner">
+    <div class="display-1 fw-bold pb-7 text-primary" style="letter-spacing: -.2rem;" aria-hidden="true">
+      V<span class="fw-bold">er</span><span class="opacity-75">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span>
     </div>
-    <div class="display-6 pb-10">Explore timeless poetry</div>
-  </div>
-  <div class="flex-shrink-1 w-100 d-flex justify-content-center align-items-center p-4">
-    @if (state() !== 'search') {
-      <app-button-icon icon="bi-arrow-left" color="secondary" (click)="back()" class="pe-4"/>
-    } @else if (!hero()) {
-      <div class="text-center fw-bold h6 pe-4 clickable"
+    <h1 class="visually-hidden">Versearch — Explore timeless poetry</h1>
+    <p class="display-6 pb-10 text-primary" aria-hidden="true">Explore timeless poetry</p>
+  </header>
+
+  <div class="flex-shrink-1 w-100 d-flex justify-content-center align-items-center p-4"
+       role="search"
+       aria-label="Poetry search">
+    @if (!hero()) {
+      <div class="text-center fw-bold h6 pe-4 clickable text-primary"
+           role="button"
+           tabindex="0"
+           aria-label="Reset search"
            [animate.enter]="previousStateNotSpecificMode() ? 'show-hide-animation time-700' : ''"
            [animate.leave]="stateNotSpecificMode() ? 'show-hide-animation leave time-150' : ''"
            style="letter-spacing: -.03rem;"
-           (click)="resetAll()">
-        V<span class="fw-bold">er</span><span class="text-body-secondary">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span>
+           (click)="resetAll()"
+           (keydown.enter)="resetAll()"
+           (keydown.space)="resetAll()">
+        V<span class="fw-bold">er</span><span class="opacity-75">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span>
       </div>
+    }
+    @if (state() !== 'search') {
+      <app-button-icon-with-text icon="bi-arrow-left"
+                                 color="secondary"
+                                 text="Back to All Search"
+                                 size="lg"
+                                 class="pe-4"
+                                 aria-label="Back to results"
+                                 contextMenuLink="search"
+                                 (click)="back()"
+                                 (keydown.enter)="back()"
+                                 (keydown.space)="back()"/>
     }
     <div class="search-bar-container" [class.hero]="hero()">
       <app-search-bar [state]="state()" (data)="onSearchData($event)"/>
     </div>
   </div>
-  <div class="d-flex minh-0 router-container" [class.hero]="hero()">
+
+  <div class="d-flex minh-0 router-container"
+       [class.hero]="hero()"
+       role="region"
+       aria-label="Search results">
     <router-outlet [routerOutletData]="data()"/>
   </div>
 </div>

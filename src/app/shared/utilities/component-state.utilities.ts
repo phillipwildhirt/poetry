@@ -30,7 +30,6 @@ export class ComponentStateUtilities {
                                                      hoverDelay: number | undefined = undefined) {
     componentState$.pipe(
       switchMap(v => {
-        // console.log(v.map(s => this.getEnum(s)));
         const s = this.getComponentState(v, priorityState);
         if (s === ComponentState.hover) {
           if (hoverDelay) return of(s).pipe(delay(hoverDelay));

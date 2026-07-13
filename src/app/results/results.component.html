@@ -1,38 +1,62 @@
 <div class="w-100">
-  <div class="list-group w-100 pb-4">
-    @if (data().results.length) {
-      @for (result of data().results; track isSkeleton(result) ? $index : isAuthor(result) ? result.name : result.title) {
+  <div class="list-group list-group-flush w-100 pb-4"
+           role="listbox"
+           aria-label="Search results"
+           appListKeyboardNav>
+    @let dataExists = data() !== undefined;
+    @if (dataExists && data().results.length) {
+      @for (result of data().results; track isSkeleton(result) ? $index : isAuthor(result) ? result.name : (result.title + result.kind)) {
         @if (result.sectionLabel) {
-          <button class="list-group-item list-group-item-secondary py-2 px-3 list-group-item-action" (click)="searchBySection(result.sectionLabel)">
-            <div class="h6 small fst-italic">{{ result.sectionLabel }}<span class="small fw-light"> — tap to search {{ result.sectionLabel }} only</span></div>
+          <button class="list-group-item list-group-item-secondary border-top py-4 px-3 list-group-item-action mt-4"
+                  [attr.aria-label]="'Search ' + result.sectionLabel + ' only'"
+                  tabindex="0"
+                  (click)="searchBySection(result.sectionLabel)"
+                  (keydown.enter)="searchBySection(result.sectionLabel)"
+                  (keydown.space)="searchBySection(result.sectionLabel)">
+            <div class="h6 small fst-italic">{{ result.sectionLabel }}</div>
           </button>
         }
         @if (isSkeleton(result)) {
-          <div class="list-group-item">
+          <div class="list-group-item"
+               role="option"
+               aria-busy="true"
+               aria-label="Loading result">
             <app-title-skeleton/>
           </div>
         } @else {
-          <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="resultClick(result)">
-          @if (isAuthor(result)) {
-            <app-author-result [result]="result" [term]="data().term"/>
-          } @else if (isTitle(result)) {
-            <app-title-result [result]="result" [term]="data().term"/>
-          } @else if (isLine(result)) {
-            <app-line-result [result]="result" [term]="data().term"/>
-          }
+          <button type="button"
+                  class="list-group-item text-start"
+                  role="option"
+                  [attr.aria-label]="isAuthor(result) ? 'Author: ' + result.name : 'Poem: ' + result.title + ' by ' + result.author"
+                  [attr.tabindex]="$first ? 0 : -1"
+                  (click)="resultClick(result)"
+                  (keydown.enter)="resultClick(result)"
+                  (keydown.space)="resultClick(result)">
+            @if (isAuthor(result)) {
+              <app-author-result [result]="result" [term]="data().term"/>
+            } @else if (isTitle(result)) {
+              <app-title-result [result]="result" [term]="data().term"/>
+            } @else if (isLine(result)) {
+              <app-line-result [result]="result" [term]="data().term"/>
+            }
           </button>
+          @if (result.more) {
+            <button type="button"
+                    class="list-group-item text-start"
+                    role="option"
+                    [attr.aria-label]="'More ' + result.more + '. Tap to Search.'"
+                    [attr.tabindex]="$first ? 0 : -1"
+                    appListInteractionStateDirective
+                    (click)="searchBySection(result.more)"
+                    (keydown.enter)="searchBySection(result.more)"
+                    (keydown.space)="searchBySection(result.more)">
+              <div class="h6 small fst-italic py-1 text-center opacity-75"> . . . more {{ result.more }}. Tap to Search.</div>
+            </button>
+          }
         }
       }
-    } @else {
-      <div class="text-center py-8">
-        @if (isEmpty(data().term)) {
-          <div class="h5 text-danger"><i class="bi-emoji-frown-fill pe-2"></i>The&nbsp;verse has gone&nbsp;silent.</div>
-          <div class="text-body-secondary">Our connection to the Verse Vault seems to have been severed—even the muse has no&nbsp;words.</div>
-        } @else {
-          <div class="h5 text-body-secondary pb-1"><i class="bi-search pe-2"></i>No&nbsp;poems answered the&nbsp;call.</div>
-          <div class="text-body-secondary fst-italic">"{{ data().term }}" echoes unanswered through the poetry&nbsp;vault. Try a different search&nbsp;term.</div>
-        }
-      </div>
+    } @else if (dataExists) {
+      <app-results-empty-state [data]="data()"/>
     }
   </div>
 </div>

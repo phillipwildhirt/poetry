@@ -30,35 +30,41 @@ describe('Results', () => {
     await fixture.whenStable();
   });
 
-  it('searchBySection() should navigate to "author" for author section label', () => {
+  it('searchBySection() should navigate to ["search", "author"] for author section label', () => {
     const navigateSpy = vi.spyOn(router, 'navigate');
     (component as any).searchBySection(TypeaheadSectionLabel.author);
-    expect(navigateSpy).toHaveBeenCalledWith([TypeaheadResultKind.author]);
+    expect(navigateSpy).toHaveBeenCalledWith(['search', TypeaheadResultKind.author]);
   });
 
-  it('searchBySection() should navigate to "title" for title section label', () => {
+  it('searchBySection() should navigate to ["search", "title"] for title section label', () => {
     const navigateSpy = vi.spyOn(router, 'navigate');
     (component as any).searchBySection(TypeaheadSectionLabel.title);
-    expect(navigateSpy).toHaveBeenCalledWith([TypeaheadResultKind.title]);
+    expect(navigateSpy).toHaveBeenCalledWith(['search', TypeaheadResultKind.title]);
   });
 
-  it('searchBySection() should navigate to "line" for line section label', () => {
+  it('searchBySection() should navigate to ["search", "line"] for line section label', () => {
     const navigateSpy = vi.spyOn(router, 'navigate');
     (component as any).searchBySection(TypeaheadSectionLabel.line);
-    expect(navigateSpy).toHaveBeenCalledWith([TypeaheadResultKind.line]);
+    expect(navigateSpy).toHaveBeenCalledWith(['search', TypeaheadResultKind.line]);
   });
 
-  it('resultClick() with an author result should set search term and navigate to "author"', () => {
-    const nextSpy = vi.spyOn(searchTermService.set$, 'next');
+  it('resultClick() with an author result should call setExactAuthor() and navigate to ["search", "author"]', () => {
+    const spy = vi.spyOn(searchTermService, 'setExactAuthor');
     const navigateSpy = vi.spyOn(router, 'navigate');
     (component as any).resultClick({ kind: TypeaheadResultKind.author, name: 'Keats' });
-    expect(nextSpy).toHaveBeenCalledWith('Keats');
-    expect(navigateSpy).toHaveBeenCalledWith(['author']);
+    expect(spy).toHaveBeenCalledWith('Keats');
+    expect(navigateSpy).toHaveBeenCalledWith(['search', 'author']);
   });
 
-  it('resultClick() with a non-author result should not navigate', () => {
+  it('resultClick() with a title result should navigate to ["./poem", author, title]', () => {
     const navigateSpy = vi.spyOn(router, 'navigate');
-    (component as any).resultClick({ kind: TypeaheadResultKind.title, title: 'Ode', author: 'Keats' });
-    expect(navigateSpy).not.toHaveBeenCalled();
+    (component as any).resultClick({ kind: TypeaheadResultKind.title, title: 'Ode to Autumn', author: 'Keats' });
+    expect(navigateSpy).toHaveBeenCalledWith(['./poem', 'Keats', 'Ode to Autumn']);
+  });
+
+  it('resultClick() with a line result should navigate to ["./poem", author, title]', () => {
+    const navigateSpy = vi.spyOn(router, 'navigate');
+    (component as any).resultClick({ kind: TypeaheadResultKind.line, title: 'Ode to Autumn', author: 'Keats', line: 'Season of mists' });
+    expect(navigateSpy).toHaveBeenCalledWith(['./poem', 'Keats', 'Ode to Autumn']);
   });
 });

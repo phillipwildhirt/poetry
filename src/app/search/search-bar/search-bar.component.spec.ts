@@ -24,8 +24,13 @@ describe('Search', () => {
     await fixture.whenStable();
   });
 
-  it('should update form value when searchTermService.set$ emits', () => {
-    searchTermService.set$.next('Keats');
+  it('should update form value when searchTermService emits a term', () => {
+    searchTermService.setTerm('Keats');
+    expect(component.form.value).toBe('Keats');
+  });
+
+  it('should update form value when searchTermService emits an exact author', () => {
+    searchTermService.setExactAuthor('Keats');
     expect(component.form.value).toBe('Keats');
   });
 

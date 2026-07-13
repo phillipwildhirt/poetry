@@ -21,6 +21,7 @@ describe('SearchComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     searchTermService = TestBed.inject(SearchTermService);
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
     await fixture.whenStable();
   });
 
@@ -28,23 +29,35 @@ describe('SearchComponent', () => {
     expect(component.state()).toBe('search');
   });
 
-  it('onSearchData() should set data and navigate to "search" when no exact author match', () => {
+  it('hero should be true when data is undefined', () => {
+    expect(component.hero()).toBe(true);
+  });
+
+  it('hero should be false when data is set', () => {
+    component.onSearchData({
+      results: [{ kind: TypeaheadResultKind.title, title: 'Ode', author: 'Keats' }],
+      term: 'ode',
+    });
+    expect(component.hero()).toBe(false);
+  });
+
+  it('onSearchData() should set data and navigate to ["search", "results"] when no exact author match', () => {
     const navigateSpy = vi.spyOn(router, 'navigate');
     component.onSearchData({
       results: [{ kind: TypeaheadResultKind.author, name: 'Keats' }],
       term: 'kea',
     });
     expect(component.data()?.term).toBe('kea');
-    expect(navigateSpy).toHaveBeenCalledWith(['search']);
+    expect(navigateSpy).toHaveBeenCalledWith(['search', 'results']);
   });
 
-  it('onSearchData() should call searchTermService.set$.next() when exact author match found', () => {
-    const nextSpy = vi.spyOn(searchTermService.set$, 'next');
+  it('onSearchData() should call setExactAuthor() when exact author match found', () => {
+    const spy = vi.spyOn(searchTermService, 'setExactAuthor');
     component.onSearchData({
       results: [{ kind: TypeaheadResultKind.author, name: 'Keats' }],
       term: 'Keats',
     });
-    expect(nextSpy).toHaveBeenCalledWith('Keats');
+    expect(spy).toHaveBeenCalledWith('Keats');
   });
 
   it('onSearchData() with exact author match should NOT update data signal', () => {
@@ -55,21 +68,21 @@ describe('SearchComponent', () => {
     expect(component.data()).toBeUndefined();
   });
 
-  it('back() should navigate to "search"', () => {
+  it('back() should navigate to ["search", "results"]', () => {
     const navigateSpy = vi.spyOn(router, 'navigate');
     (component as any).back();
-    expect(navigateSpy).toHaveBeenCalledWith(['search']);
+    expect(navigateSpy).toHaveBeenCalledWith(['search', 'results']);
   });
 
-  it('back() should call searchTermService.set$.next("") when state is "exact-author"', () => {
-    const nextSpy = vi.spyOn(searchTermService.set$, 'next');
-    searchTermService.set$.next('Keats');
+  it('back() in exact-author state should call setTerm() with lastNonExactAuthorTerm', () => {
+    const spy = vi.spyOn(searchTermService, 'setTerm');
+    searchTermService.setExactAuthor('Keats');
     fixture.detectChanges();
     (component as any).back();
-    expect(nextSpy).toHaveBeenCalledWith('');
+    expect(spy).toHaveBeenCalledWith(searchTermService.lastNonExactAuthorTerm());
   });
 
-  it('resetAll() should clear data signal and navigate to "search"', () => {
+  it('resetAll() should clear data signal and navigate to ["search"]', () => {
     const navigateSpy = vi.spyOn(router, 'navigate');
     component.onSearchData({
       results: [{ kind: TypeaheadResultKind.title, title: 'Ode', author: 'Keats' }],
@@ -78,5 +91,11 @@ describe('SearchComponent', () => {
     (component as any).resetAll();
     expect(component.data()).toBeUndefined();
     expect(navigateSpy).toHaveBeenCalledWith(['search']);
+  });
+
+  it('resetAll() should call setTerm("") to clear the search term', () => {
+    const spy = vi.spyOn(searchTermService, 'setTerm');
+    (component as any).resetAll();
+    expect(spy).toHaveBeenCalledWith('');
   });
 });

@@ -53,7 +53,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 export class ButtonIconInteractiveColorComponent extends ButtonIconComponent implements OnInit, OnDestroy {
   /**
    * If the base color will be different when the user interacts, input an optional theme-color here
-   * i.e. 'secondary', 'dpsblue'
+   * i.e. 'secondary', 'primary'
    * @param string - theme color string
    */
   @Input() interactionColor = '';

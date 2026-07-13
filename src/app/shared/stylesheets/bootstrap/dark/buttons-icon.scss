@@ -9,7 +9,7 @@
   @each $color, $value in $theme-colors-dark {
     .btn-ic-#{$color} {
       @include button-icon-variant($value) {
-        /* TODO this creates 3000+ lines of styles for toggle buttons. Perhaps we can trim it when DPS design is further along.
+        /* TODO this creates 3000+ lines of styles for toggle buttons. Perhaps we can trim it when app design is further along.
             We would need to create a new map of each of the toggled colors we use in variables.scss,
             and iterate only over that for each theme color. theme colors (~13) * toggled color map (maybe ~5)
          */

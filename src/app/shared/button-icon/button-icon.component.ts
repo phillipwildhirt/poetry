@@ -64,7 +64,7 @@ export class ButtonIconComponent implements OnInit, OnDestroy {
 
   /**
    * Required theme-color for resting state of the icon
-   * i.e. 'secondary', 'dpsblue'
+   * i.e. 'secondary', 'primary'
    * @param string - theme color string
    */
   @Input({required: true}) color = '';
@@ -160,7 +160,7 @@ export class ButtonIconComponent implements OnInit, OnDestroy {
       if (this.contextMenuLink[0] !== '/') {
         this.contextMenuLink = '/' + this.contextMenuLink;
       }
-      this.renderer.setAttribute(element, 'href', 'DPS' + this.contextMenuLink);
+      this.renderer.setAttribute(element, 'href', this.contextMenuLink);
       asyncDelay(10, () => this.renderer.removeAttribute(element, 'href'));
     }
   }

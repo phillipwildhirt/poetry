@@ -1,1 +1,73 @@
-<p>poem works!</p>
+<div class="w-100 vh-100 d-flex flex-column align-items-stretch">
+  <header class="d-flex justify-content-between align-items-center position-sticky bg-body border-bottom shadow-sm px-4 py-2"
+          role="banner">
+    <div class="">
+      <app-button-icon-with-text icon="bi-search"
+                                 color="secondary"
+                                 text="Back to search"
+                                 aria-label="Back to search"
+                                 contextMenuLink="search"
+                                 (click)="backToSearch()"
+                                 (keydown.enter)="backToSearch()"
+                                 (keydown.space)="backToSearch()"/>
+    </div>
+    <div class="text-center" role="heading" aria-level="1">
+      <span class="title">{{ title() }}</span><span class="text-body-secondary" aria-hidden="true"> —&nbsp;</span><span class="author small nowrap-white-space clickable"
+                                                                                                                   role="button"
+                                                                                                                   tabindex="0"
+                                                                                                                   [attr.aria-label]="'Search poems by ' + author()"
+                                                                                                                   (click)="searchAuthor(author())"
+                                                                                                                   (keydown.enter)="searchAuthor(author())"
+                                                                                                                   (keydown.space)="searchAuthor(author())">{{ author() }}</span>
+    </div>
+    <div class="">
+      <app-button-icon-with-text icon="bi-gear" color="secondary" text="Settings" aria-label="Settings"/>
+    </div>
+  </header>
+
+  <main class="minh-0 flex-grow-1 overflow-auto px-2 py-8 d-flex justify-content-center inset-scroll-shadow-animation"
+        [class]="(scrollState$ | async)"
+        appScroll
+        [request]="['positionY']"
+        [contentChanged$]="contentChanged$"
+        (scrollYPosition)="setShadowState($event);"
+        [attr.aria-label]="title() + ' by ' + author()"
+        role="main">
+    <div class="d-inline-block">
+      @let poemExists = poem();
+      @if (poemExists !== undefined) {
+        <article [attr.aria-label]="title()">
+          @for (line of poemExists.lines; track line + ':' + $index) {
+            <div class="poem collapse-white-space" role="paragraph">
+              @for (segment of (line | formatter); track segment.text + ':' + $index) {
+                @if (segment.feature) {
+                  @switch (segment.feature) {
+                    @case (FormatFeature.italic) {
+                      <span class="fst-italic">{{ segment.text }}</span>
+                    }
+                    @case (FormatFeature.bold) {
+                      <span class="fw-bold">{{ segment.text }}</span>
+                    }
+                    @case (FormatFeature.emDash) {
+                      —
+                    }
+                    @case (FormatFeature.newLine) {
+                      <br>
+                    }
+                  }
+                } @else {
+                  {{ segment.text }}
+                }
+              }
+            </div>
+          }
+          <br><br>
+        </article>
+      } @else {
+        <div role="status" aria-live="polite" aria-label="Loading poem">
+          <app-skeleton width="200px" height="2rem"/>
+        </div>
+      }
+    </div>
+  </main>
+</div>

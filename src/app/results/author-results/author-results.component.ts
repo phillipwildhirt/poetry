@@ -11,8 +11,10 @@ import {
   TypeaheadTitleResult,
 } from '@app/shared/models/typeahead-result.model';
 import { ListInteractionStateDirective } from '@app/shared/directives/list-interaction-state.directive';
+import { ListKeyboardNavDirective } from '@app/shared/directives/list-keyboard-nav.directive';
 import { TitleResultComponent } from '@app/results/title-results/result/title-result.component';
 import { TitleSkeletonComponent } from '@app/results/title-results/result/title-skeleton.component';
+import { ResultsEmptyStateComponent } from '../results-empty-state.component';
 
 @Component({
   selector   : 'app-author-results',
@@ -20,9 +22,11 @@ import { TitleSkeletonComponent } from '@app/results/title-results/result/title-
   styleUrl   : './author-results.component.scss',
   imports: [
     ListInteractionStateDirective,
+    ListKeyboardNavDirective,
     AuthorResultComponent,
     TitleResultComponent,
     TitleSkeletonComponent,
+    ResultsEmptyStateComponent,
   ],
   host: {
     class: 'flex-grow-1 minw-0 w-100 px-4 overflow-auto',
@@ -38,7 +42,7 @@ export class AuthorResultsComponent {
   readonly isTitle = isTitle;
 
   protected authorClick(result: TypeaheadAuthorResult): void {
-    this.searchTermService.set$.next(result.name);
+    this.searchTermService.setExactAuthor(result.name);
     this.router.navigate(['search', 'author']);
   }
 

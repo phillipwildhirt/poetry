@@ -1,22 +1,46 @@
 <div class="w-100 minw-100 minh-100">
-  <div class="list-group">
+  <div class="list-group"
+           role="listbox"
+           aria-label="Author search results"
+           appListKeyboardNav>
     @let existsData = data();
-    @if (existsData) {
+    @if (existsData && existsData.results.length) {
       @for (result of existsData.results; track $index) {
         @if (isSkeleton(result)) {
-          <div class="list-group-item">
+          <div class="list-group-item"
+               role="option"
+               aria-busy="true"
+               aria-label="Loading result">
             <app-title-skeleton/>
           </div>
         } @else if (isAuthor(result)) {
-          <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="authorClick(result)">
+          <button type="button"
+                  class="list-group-item text-start"
+                  role="option"
+                  [attr.aria-label]="'Author: ' + result.name"
+                  [attr.tabindex]="$first ? 0 : -1"
+                  appListInteractionStateDirective
+                  (click)="authorClick(result)"
+                  (keydown.enter)="authorClick(result)"
+                  (keydown.space)="authorClick(result)">
             <app-author-result [result]="result" [term]="existsData.term"/>
           </button>
         } @else if (isTitle(result)) {
-          <button type="button" class="list-group-item text-start" appListInteractionStateDirective (click)="openPoem(result)">
+          <button type="button"
+                  class="list-group-item text-start"
+                  role="option"
+                  [attr.aria-label]="'Poem: ' + result.title + ' by ' + result.author"
+                  [attr.tabindex]="$first ? 0 : -1"
+                  appListInteractionStateDirective
+                  (click)="openPoem(result)"
+                  (keydown.enter)="openPoem(result)"
+                  (keydown.space)="openPoem(result)">
             <app-title-result [result]="result" [term]="existsData.term"/>
           </button>
         }
       }
+    } @else if (existsData) {
+      <app-results-empty-state [data]="existsData"/>
     }
   </div>
 </div>

@@ -3,7 +3,7 @@ import { catchError, map, Observable, of, shareReplay, tap } from 'rxjs';
 import { PoetryApiService } from '@app/shared/services/poetry-api.service';
 import { Poem } from '@app/shared/models/poetrydb.models';
 
-@Injectable()
+@Injectable({providedIn: 'root'  })
 export class LineSearchService {
   private readonly poetryApiService = inject(PoetryApiService);
 
