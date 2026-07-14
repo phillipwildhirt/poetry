@@ -16,10 +16,19 @@ describe('PoemComponent', () => {
   let searchTermService: SearchTermService;
 
   beforeEach(async () => {
-    // matchMedia is not available in jsdom
+    // matchMedia is not available in jsdom — CDK BreakpointObserver needs these methods
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: vi.fn().mockReturnValue({ matches: false }),
+      value: vi.fn().mockReturnValue({
+        matches: false,
+        media: '',
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      }),
     });
 
     await TestBed.configureTestingModule({
