@@ -90,7 +90,7 @@ export class ComponentStateDirective implements OnDestroy {
   }
 
   private onClickElsewhere(event: MouseEvent): void {
-    if (this.latestStates.find(s => s === ComponentState.active || s === ComponentState.focus || s === ComponentState.pressed) !== undefined) {
+    if (this.latestStates.some(s => s === ComponentState.active || s === ComponentState.focus || s === ComponentState.pressed)) {
       if (event.composedPath().every((item: EventTarget) => {
         if (item instanceof HTMLElement) {
           return item.id !== this.el.nativeElement.id;

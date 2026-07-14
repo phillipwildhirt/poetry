@@ -1,59 +1,106 @@
 # Poetry
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.19.
+A modern Angular application for discovering and reading poetry, powered by the [PoetryDB](https://poetrydb.org) public API.
 
-## Development server
+Search poems by title, author, or line — then read the full poem on a dedicated page.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## Tech Stack
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+| | |
+|---|---|
+| Framework | [Angular 21](https://angular.dev) |
+| UI Components | [ng-bootstrap](https://ng-bootstrap.github.io) + [Bootstrap 5](https://getbootstrap.com) |
+| Testing | [Vitest](https://vitest.dev) |
+| Linting | ESLint (angular-eslint + typescript-eslint) + Stylelint |
+| API | [PoetryDB](https://poetrydb.org) |
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Getting Started
 
-```bash
-ng generate component component-name
-```
+### Prerequisites
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Node.js ≥ 22
+- npm ≥ 10
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Install dependencies
 
 ```bash
-ng build
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Run the dev server
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+Open [http://localhost:4200](http://localhost:4200). The app hot-reloads on file changes.
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm start` | Start the local dev server |
+| `npm run build` | Production build (output: `dist/`) |
+| `npm test` | Run unit tests with Vitest |
+| `npm run lint` | Run ESLint + Stylelint |
+
+---
+
+## App Structure
+
+```
+src/app/
+├── search/          # Search page — typeahead by title, author, or line
+│   ├── results/     # Result sub-views (author / title / line)
+│   └── search-bar/  # Typeahead search bar component
+├── poem/            # Full poem view page
+└── shared/          # Shared components, services, utilities
+    ├── button-icon/ # Icon button component
+    ├── services/    # PoetryApiService, SearchTermService, DarkModeService, BreakpointService
+    ├── directives/
+    ├── animations/
+    └── enums/
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Routes
 
-## Additional Resources
+| Path | Component |
+|---|---|
+| `/search` | Search page |
+| `/search/results` | General search results |
+| `/search/author` | Author-specific results |
+| `/search/title` | Title-specific results |
+| `/search/line` | Line-specific results |
+| `/poem/:author/:title` | Full poem view |
+| `/**` | Redirects to `/search` |
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## CI/CD
+
+The project uses GitHub Actions with two branch strategies:
+
+- **`master`** — runs lint and tests on every push/PR
+- **`production`** — runs lint, tests, build, and deploy on every push/PR
+
+See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for the full pipeline definition.
+
+---
+
+## API
+
+Data is fetched from [PoetryDB](https://poetrydb.org) (`https://poetrydb.org`). No API key required.
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `getAuthors()` | `/author` | Fetch all authors |
+| `searchTitles(term)` | `/title,poemcount/{term}` | Search poems by title |
+| `getAuthorTitles(author)` | `/author,poemcount/{author}` | Get all titles by an author |
+| `searchLines(term)` | `/lines,poemcount/{term}` | Search poems by line content |
+| `getPoem(author, title)` | `/author,title/{author};{title}` | Fetch a single full poem |

@@ -30,14 +30,13 @@
     "selector-id-pattern": ["^[a-z0-9]+(-[a-z0-9]*)*$", { "severity": "warning" }],
     "selector-type-case": "lower",
     "no-duplicate-selectors": [true, { "severity": "warning" }],
+    "selector-pseudo-element-no-unknown": [true, {
+      "ignorePseudoElements": ["input-placeholder"]
+    }],
     "no-descending-specificity": null,
     "selector-not-notation": null,
     "selector-type-no-unknown": [true, {
       "ignoreTypes": [
-        "smaller",
-        "h7",
-        "/^h[1-7]-bold$/",
-        "/^h[1-7]-important$/",
         "/^ngb-[a-z-]+$/",
         "/^app-[a-z-]+$/"
       ]

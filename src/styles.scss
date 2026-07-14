@@ -9,7 +9,6 @@
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import 'app/shared/animations/animations';
 @import 'app/shared/skeleton/skeleton.component';
-@import 'app/shared/stylesheets/dropdown-max-height';
 
 
 /**  Cursors   */
@@ -48,19 +47,11 @@ $white-spaces: ('pre', 'initial', 'pre-line', 'pre-wrap', 'nowrap', 'collapse');
 
 :root {
 
-  @each $shade, $value in $primary-palette {
-    --#{$prefix}#{$shade}: #{$value};
-  }
-
   @each $shade, $value in $darknlight-palette {
     --#{$prefix}#{$shade}: #{$value};
   }
 
   @each $shade, $value in $gray-palette {
-    --#{$prefix}#{$shade}-rgb: #{to-rgb($value)};
-  }
-
-  @each $shade, $value in $primary-palette {
     --#{$prefix}#{$shade}-rgb: #{to-rgb($value)};
   }
 
@@ -124,5 +115,7 @@ $white-spaces: ('pre', 'initial', 'pre-line', 'pre-wrap', 'nowrap', 'collapse');
 
 .poem {
   font-family: "Libre Baskerville", serif;
+  padding-left: 1.5em;
+  text-indent: -1.5em;
 }
 

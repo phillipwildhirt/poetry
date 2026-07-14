@@ -4,7 +4,7 @@
     <div class="">
       <app-button-icon-with-text icon="bi-search"
                                  color="darknlight"
-                                 text="Back to search"
+                                 [text]="(breakpointService.sm | async) ? 'Back to search' : 'Back'"
                                  aria-label="Back to search"
                                  contextMenuLink="search"
                                  (click)="backToSearch()"
@@ -12,7 +12,8 @@
                                  (keydown.space)="backToSearch()"/>
     </div>
     <div class="text-center" role="heading" aria-level="1">
-      <span class="title">{{ title() }}</span><span class="text-body-secondary" aria-hidden="true"> —&nbsp;</span><span class="author small nowrap-white-space clickable"
+      <span class="title">{{ title() }}</span><span class="text-body-secondary" aria-hidden="true"> —&nbsp;</span><span class="author small clickable"
+                                                                                                                   [class.nowrap-white-space]="breakpointService.sm | async"
                                                                                                                    role="button"
                                                                                                                    tabindex="0"
                                                                                                                    [attr.aria-label]="'Search poems by ' + author()"
@@ -23,7 +24,7 @@
     <div class="">
       <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" role="switch" id="dark-mode-switch" [formControl]="darkMode">
-        <label class="form-check-label small opacity-75" for="dark-mode-switch">Dark Mode</label>
+        <label class="form-check-label small opacity-75" for="dark-mode-switch">@if (breakpointService.sm | async) {Dark Mode} @else {<i class="bi bi-brightness-high"></i>}</label>
       </div>
     </div>
   </header>

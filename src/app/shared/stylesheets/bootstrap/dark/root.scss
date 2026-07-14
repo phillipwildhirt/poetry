@@ -27,13 +27,6 @@
   @each $shadow, $value in $box-shadows-rgba {
     --#{$prefix}box-#{$shadow}-rgba: #{$value};
   }
-
-  --#{$prefix}form-icon-valid-color: #{$form-feedback-icon-valid-color};
-  --#{$prefix}form-icon-invalid-color: #{$form-feedback-icon-invalid-color};
-  --#{$prefix}form-icon-valid-color-rgb: #{to-rgb($form-feedback-icon-valid-color)};
-  --#{$prefix}form-icon-invalid-color-rgb: #{to-rgb($form-feedback-icon-invalid-color)};
-  --#{$prefix}form-valid-color-rgb: #{to-rgb($form-valid-color)};
-  --#{$prefix}form-invalid-color-rgb: #{to-rgb($form-invalid-color)};
 }
 
 @include color-mode(dark) {
@@ -79,13 +72,4 @@
   @each $shadow, $value in $box-shadows-rgba-dark {
     --#{$prefix}box-#{$shadow}-rgba: #{$value};
   }
-
-  --#{$prefix}form-icon-valid-color: #{$form-feedback-icon-valid-color-dark};
-  --#{$prefix}form-icon-invalid-color: #{$form-feedback-icon-invalid-color-dark};
-  --#{$prefix}form-valid-color: #{$form-feedback-valid-color-dark};
-  --#{$prefix}form-invalid-color: #{$form-feedback-invalid-color-dark};
-  --#{$prefix}form-icon-valid-color-rgb: #{to-rgb($form-feedback-icon-valid-color-dark)};
-  --#{$prefix}form-icon-invalid-color-rgb: #{to-rgb($form-feedback-icon-invalid-color-dark)};
-  --#{$prefix}form-valid-color-rgb: #{to-rgb($form-feedback-valid-color-dark)};
-  --#{$prefix}form-invalid-color-rgb: #{to-rgb($form-feedback-invalid-color-dark)};
 }

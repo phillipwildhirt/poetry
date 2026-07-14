@@ -81,8 +81,6 @@ export const isLine = (result: TypeaheadResult): result is TypeaheadLineResult =
 export const isSkeleton = (result: TypeaheadResult): result is TypeaheadSkeletonResult =>
   result?.kind === TypeaheadResultKind.skeleton;
 
-/** The searchable kinds — everything except skeleton. */
 export type TypeaheadSearchKind = Exclude<TypeaheadResultKind, TypeaheadResultKind.skeleton>;
 
-/** Search state: a specific section kind, or 'search' for the combined typeahead, or 'exact-author' for a single author's titles. */
 export type AppState = TypeaheadSearchKind | 'search' | 'exact-author' | 'poem';

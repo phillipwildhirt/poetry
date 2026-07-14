@@ -12,9 +12,7 @@ $utilities: map.merge(
                 (
                   grow-2:  2,
                   grow-3:  3,
-                  grow-4:  4,
-                  grow-10: 10,
-                  grow-20: 20,
+                  grow-4:  4
                 ),
             ),
           ),
@@ -39,38 +37,6 @@ $utilities: map.merge(
           // shadow classes are created in root.scss using dark-mode variations.
           none: none,
         )
-      ),
-      "opacity": map.merge(
-          map.get($utilities, "opacity"),
-          (
-            values: map.merge(
-                map.get(map.get($utilities, "opacity"), "values"),
-                (
-                  65: .65,
-                ),
-            ),
-          ),
-      ),
-      "text-align": map.merge(
-          map.get($utilities, "text-align"),
-          (
-            values: map.merge(
-                map.get(map.get($utilities, "text-align"), "values"),
-                (
-                  justify: justify,
-                ),
-            ),
-          ),
-      ),
-      "viewport-height": map.merge(
-          map.get($utilities, "viewport-height"),
-          (
-            values: map.merge(
-                map.get(map.get($utilities, "viewport-height"), "values"),
-                (
-                  50: 50vh)
-            )
-          )
       ),
       "height": map.merge(
           map.get($utilities, "height"),

@@ -10,7 +10,7 @@ import { delay } from 'rxjs/operators';
 
 export const SECTION_LIMIT: Record<AppState, number> = {
   search        : 5,
-  author        : 100,
+  author        : 10000,
   title         : 100,
   line          : 100,
   'exact-author': 100,

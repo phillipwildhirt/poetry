@@ -28,9 +28,6 @@ export default defineConfig([
     extends: compat.extends(
       'plugin:@angular-eslint/recommended',
       'plugin:@angular-eslint/template/process-inline-templates',
-      // 'plugin:@ngrx/store',
-      // 'plugin:@ngrx/effects',
-      // 'plugin:@ngrx/operators',
     ),
 
     languageOptions: {
@@ -83,12 +80,7 @@ export default defineConfig([
           selector: 'ClassDeclaration[id.name=/[Rr]esponse/] TSTypeReference[typeName.name=/^(Map|Set|Date)$/], TSInterfaceDeclaration[id.name=/[Rr]esponse/] TSTypeReference[typeName.name=/^(Map|Set|Date)$/], TSTypeAliasDeclaration[id.name=/[Rr]esponse/] TSTypeReference[typeName.name=/^(Map|Set|Date)$/]',
           message: 'Raw backend maps are serialized as plain objects over the wire. Use \'Record\' instead of Map, \'Array\' instead of Set, and \'string\' instead of Date in Response models.'
         }
-      ],
-
-      // '@ngrx/prefer-effect-callback-in-block-statement': 'off',
-      // '@ngrx/prefer-concat-latest-from': 'off',
-      // '@ngrx/no-store-subscription': 'off',
-      // '@ngrx/avoid-mapping-selectors': 'warn',
+      ]
     },
   }, {
     files: ['**/*.spec.ts'],

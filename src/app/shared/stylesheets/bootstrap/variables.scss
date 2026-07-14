@@ -35,9 +35,7 @@ $color-levels: (
   "950": 7
 );
 
-$primary-palette            : color-palette.create-color-palette($color-levels, $primary, "primary");
 $darknlight-palette         : color-palette.create-color-palette($color-levels, $darknlight, "darknlight");
-$success-palette            : color-palette.create-color-palette($color-levels, $success, "success");
 
 $white    : #fff;
 $gray-100 : #f8f9fa;
@@ -70,14 +68,7 @@ $body-color           : $black;
 $body-secondary-color : rgba($body-color, .59);
 $body-secondary-bg    : $gray-200;
 
-// $body-tertiary-color  : rgba($body-color, .75);
-// $body-tertiary-bg     : map.get($ebizteal-palette, "ebizteal-200");
-
 $body-emphasis-color  : $black;
-
-
-// to see dark mode... uncomment:
-// $color-mode-type: media-query;
 
 $body-bg                       : #f6f3f1;
 $body-color-dark               : $gray-200;
@@ -86,7 +77,6 @@ $body-secondary-color-dark     : rgba($body-color-dark, .75);
 $body-secondary-bg             : $white;
 $body-secondary-bg-dark        : $gray-900;
 $body-tertiary-color-dark      : rgba($body-color-dark, .5);
-// $body-tertiary-bg-dark         : color.mix(map.get($ebizteal-palette, "ebizteal-500"), $black, 15%);
 $body-emphasis-color-dark      : $white;
 $border-color-dark             : $gray-800;
 $border-color-translucent-dark : rgba($white, .15);
@@ -176,8 +166,6 @@ $input-placeholder-color:      $gray-500;
 $input-placeholder-color-dark: $gray-600;
 
 
-//$input-bg: rgba(0,0,0,0);
-
 /*
 Custom Spacers
 (see comment for actual pixels if 1rem = 16px)
@@ -220,8 +208,6 @@ $position-values: (
 
 
 $zindex-sticky:     1000;
-$zindex-dropdown:   1020;
-$zindex-datepicker: 1020;
 
 
 $grid-breakpoints: (
@@ -232,12 +218,6 @@ $grid-breakpoints: (
   xl:   1200px,
   xxl:  1400px,
   xxxl: 1600px,
-);
-
-$extended-breakpoints: map.merge($grid-breakpoints, (
-    xl4: 1800px,
-    xl5: 2200px,
-  )
 );
 
 
@@ -267,14 +247,8 @@ $display-font-sizes        : (
   6: 2.5rem
 );
 
-$smaller-font-size         : 70%;
 $small-font-size           : 85%;
-$h7-font-size              : $font-size-base * math.div(strip-unit($small-font-size), 100);
 
-$body-color: $black;
-
-
-//$border-color:   $gray-200;
 $border-color             : $gray-400;
 $border-color-translucent : rgba($black, .25);
 
@@ -286,63 +260,46 @@ $enable-shadows: true;
 
 
 $box-shadow-sm-rgba    : rgb(0 0 0 / 15%);
-$box-shadow-md-rgba    : rgb(0 0 0 / 17.5%);
 $box-shadow-rgba       : rgb(0 0 0 / 20%);
 $box-shadow-lg-rgba    : rgb(0 0 0 / 25%);
-$box-shadow-super-rgba : rgb(0 0 0 / 40%);
 
 $box-shadows-rgba: (
   "shadow-sm":    $box-shadow-sm-rgba,
-  "shadow-md":    $box-shadow-md-rgba,
   "shadow":       $box-shadow-rgba,
   "shadow-lg":    $box-shadow-lg-rgba,
-  "shadow-super": $box-shadow-super-rgba
 );
 
 $box-shadow-sm    : 0 .125rem .25rem $box-shadow-sm-rgba;
-$box-shadow-md    : 0 .25rem .5rem $box-shadow-md-rgba;
 $box-shadow       : 0 .3rem 1rem $box-shadow-rgba;
 $box-shadow-lg    : 0 .75rem 3rem $box-shadow-lg-rgba;
-$box-shadow-super : 0 .75rem 4rem $box-shadow-super-rgba;
 
 $box-shadows: (
   "shadow-sm":    $box-shadow-sm,
-  "shadow-md":    $box-shadow-md,
   "shadow":       $box-shadow,
   "shadow-lg":    $box-shadow-lg,
-  "shadow-super": $box-shadow-super
 );
 
 
 $box-shadow-sm-rgba-dark    : rgb(0 0 0 / 25%);
-$box-shadow-md-rgba-dark    : rgb(0 0 0 / 22.5%);
 $box-shadow-rgba-dark       : rgb(0 0 0 / 35%);
 $box-shadow-lg-rgba-dark    : rgb(0 0 0 / 40%);
-$box-shadow-super-rgba-dark : rgb(0 0 0 / 55%);
 
 $box-shadows-rgba-dark: (
   "shadow-sm":    $box-shadow-sm-rgba-dark,
-  "shadow-md":    $box-shadow-md-rgba-dark,
   "shadow":       $box-shadow-rgba-dark,
   "shadow-lg":    $box-shadow-lg-rgba-dark,
-  "shadow-super": $box-shadow-super-rgba-dark
 );
 
 $box-shadow-sm-dark    : 0 .125rem .25rem rgb(0 0 0 / 25%);
-$box-shadow-md-dark    : 0 .25rem .5rem rgb(0 0 0 / 22.5%);
 $box-shadow-dark       : 0 .3rem 1rem rgb(0 0 0 / 35%);
 $box-shadow-lg-dark    : 0 .75rem 3rem rgb(0 0 0 / 40%);
-$box-shadow-super-dark : 0 .75rem 4rem rgb(0 0 0 / 55%);
 
 $box-shadows-dark: (
   "shadow-sm":    $box-shadow-sm-dark,
-  "shadow-md":    $box-shadow-md-dark,
   "shadow":       $box-shadow-dark,
   "shadow-lg":    $box-shadow-lg-dark,
-  "shadow-super": $box-shadow-super-dark
 );
 
-// $component-active-bg   : $darknlight;
 
 $focus-ring-width:      .25rem !default;
 $focus-ring-opacity:    .25 !default;
@@ -372,93 +329,12 @@ $form-switch-padding-start: $form-switch-width + .5em;
 $form-switch-border-radius: $form-switch-width;
 
 
-$enable-validation-icons                 : true;
-
-$form-feedback-valid-color               : $success;
-$form-feedback-valid-color-dark          : $form-feedback-valid-color;
-$form-feedback-valid-border-color-dark   : $form-feedback-valid-color-dark;
-$form-valid-color-dark                   : $form-feedback-valid-color-dark;
-$form-valid-border-color-dark            : $form-feedback-valid-border-color-dark;
-$form-feedback-icon-valid-color          : $form-feedback-valid-color;
-$form-feedback-icon-valid-color-dark     : $form-feedback-valid-color;
-$form-feedback-icon-valid                : url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='#{$form-feedback-icon-valid-color}' class='bi bi-check-circle' viewBox='0 0 16 16'><path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/><path d='M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z'/></svg>");
-$form-feedback-icon-valid-dark           : $form-feedback-icon-valid;
-
-$form-feedback-invalid-color             : $danger;
-$form-feedback-invalid-color-dark        : $danger-dark;
-$form-feedback-icon-invalid-color        : $form-feedback-invalid-color;
-$form-feedback-icon-invalid-color-dark   : $form-feedback-invalid-color-dark;
-$form-feedback-invalid-border-color      : $form-feedback-invalid-color;
-$form-feedback-invalid-border-color-dark : $form-feedback-invalid-color-dark;
-$form-invalid-color-dark                 : $form-feedback-invalid-color-dark;
-$form-invalid-border-color-dark          : $form-feedback-invalid-color-dark;
-$form-feedback-icon-invalid              : url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='#{$form-feedback-icon-invalid-color}'><circle cx='6' cy='6' r='4.5'/><path stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/><circle cx='6' cy='8.2' r='.6' fill='#{$form-feedback-icon-invalid-color}' stroke='none'/></svg>") !default;
-$form-feedback-icon-invalid-dark         : url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='#{$form-feedback-icon-invalid-color-dark}'><circle cx='6' cy='6' r='4.5'/><path stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/><circle cx='6' cy='8.2' r='.6' fill='#{$form-feedback-icon-invalid-color-dark}' stroke='none'/></svg>") !default;
-
-$form-feedback-link-verified-color       : map.get($success-palette, "ebizteal");
-$form-feedback-icon-link-verified-color  : $form-feedback-link-verified-color;
-
-$form-feedback-icon-saved                : url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='57px' height='16' viewBox='0 0 57 16' fill='#{$form-feedback-icon-valid-color}' fill-rule='evenodd'><text x='0' y='12.5' style='font-family: Open Sans; font-size: .85rem; font-style: italic;'>Saved</text><path d='M49,16c4.42,0,8-3.58,8-8S53.42,0,49,0s-8,3.58-8,8,3.58,8,8,8Zm0-1c3.87,0,7-3.13,7-7s-3.13-7-7-7-7,3.13-7,7,3.13,7,7,7Z'/><path d='M51.97,4.97c.29-.29,.77-.29,1.06,0,.29,.29,.29,.76,.01,1.05l-3.99,4.99-.02,.02c-.29,.29-.77,.29-1.06,0l-2.65-2.65c-.29-.29-.29-.77,0-1.06,.29-.29,.77-.29,1.06,0l2.09,2.09,3.47-4.42,.02-.02Z'/></svg>");
-$form-feedback-icon-saved-dark           : $form-feedback-icon-saved;
-
-
-$form-validation-states: (
-  "valid": (
-    "color"           : var(--#{$prefix}form-valid-color),
-    "icon"            : $form-feedback-icon-valid,
-    "icon-dark"       : $form-feedback-icon-valid-dark,
-    "tooltip-color"   : #fff,
-    "tooltip-bg-color": var(--#{$prefix}success-700),
-    "focus-box-shadow": 0 0 $input-btn-focus-blur $input-focus-width rgba(var(--#{$prefix}form-valid-color-rgb), $input-btn-focus-color-opacity),
-    "border-color"    : var(--#{$prefix}form-valid-border-color),
-  ),
-  "invalid": (
-    "color"           : var(--#{$prefix}form-invalid-color),
-    "icon"            : $form-feedback-icon-invalid,
-    "icon-dark"       : $form-feedback-icon-invalid-dark,
-    "tooltip-color"   : #fff,
-    "tooltip-bg-color": var(--#{$prefix}danger),
-    "focus-box-shadow": 0 0 $input-btn-focus-blur $input-focus-width rgba(var(--#{$prefix}form-invalid-color-rgb), $input-btn-focus-color-opacity),
-    "border-color"    : var(--#{$prefix}form-invalid-border-color),
-  ),
-  "saved": (
-    "color"           : var(--#{$prefix}form-valid-color),
-    "icon"            : $form-feedback-icon-saved,
-    "icon-dark"       : $form-feedback-icon-saved-dark,
-    "tooltip-color"   : #fff,
-    "tooltip-bg-color": var(--#{$prefix}success-700),
-    "focus-box-shadow": 0 0 $input-btn-focus-blur $input-focus-width rgba(var(--#{$prefix}form-valid-color-rgb), $input-btn-focus-color-opacity),
-    "border-color"    : var(--#{$prefix}form-valid-border-color),
-    "padding-right"   : 4.5rem
-  )
-);
-
-
-$zindex-levels: (
-  n1:   -1,
-  0:    0,
-  1:    1,
-  2:    2,
-  3:    3,
-  75:   75,
-  100:  100,
-  200:  200,
-  300:  300,
-  400:  400,
-  990:  990,
-  1000: 1000,
-  2000: 2000
-);
-
-
 
 $btn-padding-x        : 1.5rem;
 $btn-padding-x-sm     : 1rem;
 $btn-padding-x-lg     : 3rem;
 $btn-box-shadow       : 0 0 0 0;
 $btn-disabled-opacity : .5;
-
-
 
 
 

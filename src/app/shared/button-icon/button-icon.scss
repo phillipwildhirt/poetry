@@ -13,7 +13,6 @@
   $hover-color: $color,
   $active-background: $color,
   $active-border: $active-background,
-  //if($color == $color-contrast-light, shade-color($border, $btn-active-border-shade-amount), tint-color($border, $btn-active-border-tint-amount))
   $active-color: if(color-contrast($color) == $color-contrast-light, color-contrast($color), shade-color($color, 65)),
   $disabled-background: $background,
   $disabled-color: color.adjust($color, $alpha: -.5)
@@ -220,10 +219,6 @@ $btn-icon-font-size-sm: 1rem;
 @each $color, $value in $theme-colors {
   .btn-ic-#{$color} {
     @include button-icon-variant($value) {
-      /* TODO this creates 3000+ lines of styles for toggle buttons. Perhaps we can trim it when DPS design is further along.
-          We would need to create a new map of each of the toggled colors we use in variables.scss,
-          and iterate only over that for each theme color. theme colors (~13) * toggled color map (maybe ~5)
-       */
 
       @each $color-toggled, $value-toggled in $theme-colors {
         &.btn-ic-tog-#{$color-toggled} {

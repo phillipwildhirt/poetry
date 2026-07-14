@@ -13,6 +13,7 @@ import { ScrollDirective, ScrollPositionY } from '../shared/directives/scroll.di
 import { delay, distinctUntilChanged } from 'rxjs/operators';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DarkModeService } from '@app/shared/services/dark-mode.service';
+import { BreakpointService } from '../shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-poem',
@@ -33,6 +34,7 @@ export class PoemComponent {
   private readonly router = inject(Router);
   private readonly searchTermService = inject(SearchTermService);
   private readonly darkModeService = inject(DarkModeService);
+  readonly breakpointService = inject(BreakpointService);
 
   readonly author = input.required<string>();
   readonly title = input.required<string>();
