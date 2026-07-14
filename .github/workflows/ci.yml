@@ -87,8 +87,9 @@ jobs:
           path: dist/
 
       - name: Deploy (placeholder)
-        run: |
-          echo "🚀 Deploying poetry app to production..."
-          echo "Artifact contents:"
-          ls -la dist/
-          echo "✅ Deploy complete (fake)"
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_POETRY_A8C4D }}
+          channelId: live
+          projectId: poetry-a8c4d

@@ -39,6 +39,9 @@ testem.log
 /typings
 __screenshots__/
 /css_compile/**
+.firebaserc
+firebase-debug.log
+*.log
 
 # System files
 .DS_Store
