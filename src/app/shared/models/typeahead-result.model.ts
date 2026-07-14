@@ -11,17 +11,24 @@ export enum TypeaheadSectionLabel {
   line     = 'Poems by Text',
 }
 
+export const typeaheadSectionLabelSingular = {
+  [TypeaheadSectionLabel.author] : 'Author',
+  [TypeaheadSectionLabel.title]  : 'Title',
+  [TypeaheadSectionLabel.line]   : 'Text',
+};
+
 export const sectionLabelRouteMap: Partial<Record<TypeaheadSectionLabel, TypeaheadSearchKind>> = {
   [TypeaheadSectionLabel.author]: TypeaheadResultKind.author,
   [TypeaheadSectionLabel.title] : TypeaheadResultKind.title,
   [TypeaheadSectionLabel.line]  : TypeaheadResultKind.line,
-};
+} as const;
 
-export const kindSectionLabelMap: Partial<Record<TypeaheadResultKind, TypeaheadSectionLabel>> = {
+export const kindSectionLabelMap: Partial<Record<AppState, TypeaheadSectionLabel>> = {
   [TypeaheadResultKind.author]: TypeaheadSectionLabel.author,
   [TypeaheadResultKind.title] : TypeaheadSectionLabel.title,
   [TypeaheadResultKind.line]  : TypeaheadSectionLabel.line,
-};
+  'exact-author'              : TypeaheadSectionLabel.author,
+} as const;
 
 
 // -----------------------------------------------------------------------
@@ -73,15 +80,6 @@ export const isLine = (result: TypeaheadResult): result is TypeaheadLineResult =
 
 export const isSkeleton = (result: TypeaheadResult): result is TypeaheadSkeletonResult =>
   result?.kind === TypeaheadResultKind.skeleton;
-
-export const isAuthorResults = (results: TypeaheadResult[]): results is TypeaheadAuthorResult[] =>
-  results.every(isAuthor);
-
-export const isTitleResults = (results: TypeaheadResult[]): results is TypeaheadTitleResult[] =>
-  results.every(isTitle);
-
-export const isLineResults = (results: TypeaheadResult[]): results is TypeaheadLineResult[] =>
-  results.every(isLine);
 
 /** The searchable kinds — everything except skeleton. */
 export type TypeaheadSearchKind = Exclude<TypeaheadResultKind, TypeaheadResultKind.skeleton>;

@@ -12,10 +12,6 @@ export const setStyleWithRenderer = (rendererInstance: Renderer2, element: Eleme
   Object.entries(styles).forEach( ([k, v]) => rendererInstance.setStyle(element, k, v));
 };
 
-export const removeStyleWithRenderer = (rendererInstance: Renderer2, element: Element, styles: {[k: string]: string}): void => {
-  Object.entries(styles).forEach( ([k,]) => rendererInstance.removeStyle(element, k));
-};
-
 export const createElementWithRenderer = (rendererInstance: Renderer2, elementName: string, styles: {[k: string]: string}, classes: string[]): Element => {
   const el = rendererInstance.createElement(elementName);
   setStyleWithRenderer(rendererInstance, el, styles);

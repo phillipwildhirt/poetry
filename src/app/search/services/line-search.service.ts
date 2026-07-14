@@ -9,6 +9,10 @@ export class LineSearchService {
 
   private readonly cache = new Map<string, Poem[] | Observable<Poem[]>>();
 
+  isCached(term: string, limit = 10): boolean {
+    return this.cache.has(`${term}:${limit}`);
+  }
+
   search(term: string, limit = 10): Observable<Poem[]> {
     const key = `${term}:${limit}`;
     const stored = this.cache.get(key);

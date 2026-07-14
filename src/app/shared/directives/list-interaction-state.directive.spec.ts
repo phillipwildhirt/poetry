@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { ListInteractionStateDirective } from './list-interaction-state.directive';
 
 @Component({
-  template: `<div appListInteractionStateDirective>test</div>`,
+  template: '<div appListInteractionStateDirective>test</div>',
   imports: [ListInteractionStateDirective],
 })
 class TestHostComponent {}

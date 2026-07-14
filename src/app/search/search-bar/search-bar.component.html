@@ -1,14 +1,19 @@
 <div>
   <label for="search-input" class="visually-hidden">{{ searchLabel() }}</label>
-  <input id="search-input"
-         class="form-control"
-         type="search"
-         autocomplete="off"
-         autocorrect="off"
-         autocapitalize="off"
-         spellcheck="false"
-         [attr.aria-label]="searchLabel()"
-         [placeholder]="searchLabel()"
-         [formControl]="form"
-         (focus)="focus$.next($any($event.target).value)"/>
+  <div class="input-group">
+    @let label = kindSectionLabelMap[state()];
+    @if (label) {<span class="input-group-text" id="category-search"><span class="small">{{ typeaheadSectionLabelSingular[label] }}:</span></span>}
+    <input id="search-input"
+           class="form-control bg-body-secondary"
+           type="search"
+           autocomplete="off"
+           autocorrect="off"
+           autocapitalize="off"
+           spellcheck="false"
+           [attr.aria-label]="searchLabel()"
+           [aria-describedby]="label ? 'category-search' : undefined"
+           [placeholder]="searchLabel()"
+           [formControl]="form"
+           (focus)="focus$.next($any($event.target).value)"/>
+  </div>
 </div>

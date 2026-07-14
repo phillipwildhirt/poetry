@@ -19,7 +19,6 @@ import { ResultsEmptyStateComponent } from '../results-empty-state.component';
 @Component({
   selector   : 'app-author-results',
   templateUrl: './author-results.component.html',
-  styleUrl   : './author-results.component.scss',
   imports: [
     ListInteractionStateDirective,
     ListKeyboardNavDirective,

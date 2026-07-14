@@ -4,12 +4,12 @@ import { LengthUnit } from '../models/length-unit.type';
 
 @Component({
   selector: 'app-skeleton',
+  templateUrl: './skeleton.component.html',
+  standalone: true,
   imports: [
     NgStyle,
     NgClass
-  ],
-  templateUrl: './skeleton.component.html',
-  standalone: true
+  ]
 })
 export class SkeletonComponent {
   @Input({ required: true }) width!: `${number}${LengthUnit}`;

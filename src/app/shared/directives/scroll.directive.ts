@@ -33,7 +33,6 @@ const ScrollEmitterToken = new InjectionToken<ScrollEmitter>('SCROLL_EMITTER');
 })
 export class ScrollDirective implements OnInit, AfterViewInit, OnDestroy {
   readonly injector = inject(Injector);
-  readonly el = inject(ElementRef);
   readonly scrollEmitter = inject(ScrollEmitterToken);
   /** Returns the scroll stats for the element on Scroll events.
    * Only returned if Input 'request' is set to 'stats' or not specified.

@@ -1,6 +1,4 @@
 @use 'sass:map';
-@import './nt-colors.css-vars';
-
 
 @include color-mode {
   $theme-colors-text: map-loop($theme-colors-text, to-rgb, "$value");

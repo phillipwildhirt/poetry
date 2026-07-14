@@ -8,12 +8,8 @@ import { filter, map, merge, pairwise, startWith } from 'rxjs';
 import { SearchTermService } from '@app/shared/services/search-term.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { ButtonIconWithTextComponent } from '../shared/button-icon/button-icon-with-text.component';
-
-const SECTION_STATES = [
-  TypeaheadResultKind.author,
-  TypeaheadResultKind.title,
-  TypeaheadResultKind.line,
-] as const satisfies AppState[];
+import { BreakpointService } from '@app/shared/services/breakpoint.service';
+import { AsyncPipe } from '@angular/common';
 
 const stateNotSpecificMode = (state: AppState): boolean => state !== TypeaheadResultKind.author && state !== TypeaheadResultKind.title && state !== TypeaheadResultKind.line && state !== 'exact-author';
 
@@ -28,12 +24,18 @@ const urlToState = (url: string): AppState => {
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
-  imports: [RouterOutlet, SearchBarComponent, ButtonIconWithTextComponent],
+  imports: [
+    RouterOutlet,
+    AsyncPipe,
+    SearchBarComponent,
+    ButtonIconWithTextComponent
+  ],
 })
 export class SearchComponent {
   private readonly router = inject(Router);
   private readonly searchTermService = inject(SearchTermService);
   private readonly animationState = inject(AnimationStateService);
+  protected readonly breakpointService = inject(BreakpointService);
   readonly data = signal<{ results: TypeaheadResult[]; term: string } | undefined>(undefined);
   readonly hero = computed<boolean>(() => this.data() === undefined);
 

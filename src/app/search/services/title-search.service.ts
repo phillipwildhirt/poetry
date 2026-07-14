@@ -9,6 +9,10 @@ export class TitleSearchService {
 
   private readonly cache = new Map<string, PoemTitleAuthor[] | Observable<PoemTitleAuthor[]>>();
 
+  isCached(term: string, limit = 10): boolean {
+    return this.cache.has(`${term}:${limit}`);
+  }
+
   search(term: string, limit = 10): Observable<PoemTitleAuthor[]> {
     const key = `${term}:${limit}`;
     const stored = this.cache.get(key);

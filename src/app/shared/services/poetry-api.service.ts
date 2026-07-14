@@ -1,12 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpBackend, HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
-import { filter, map, Observable, switchMap } from 'rxjs';
-import {
-  AuthorListResponse,
-  Poem,
-  PoemTitle,
-  PoemTitleAuthor,
-} from '@app/shared/models/poetrydb.models';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
+import { AuthorListResponse, Poem, PoemTitleAuthor } from '@app/shared/models/poetrydb.models';
 
 const BASE_URL = 'https://poetrydb.org';
 

@@ -3,7 +3,7 @@
           role="banner">
     <div class="">
       <app-button-icon-with-text icon="bi-search"
-                                 color="secondary"
+                                 color="darknlight"
                                  text="Back to search"
                                  aria-label="Back to search"
                                  contextMenuLink="search"
@@ -21,7 +21,10 @@
                                                                                                                    (keydown.space)="searchAuthor(author())">{{ author() }}</span>
     </div>
     <div class="">
-      <app-button-icon-with-text icon="bi-gear" color="secondary" text="Settings" aria-label="Settings"/>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="dark-mode-switch" [formControl]="darkMode">
+        <label class="form-check-label small opacity-75" for="dark-mode-switch">Dark Mode</label>
+      </div>
     </div>
   </header>
 

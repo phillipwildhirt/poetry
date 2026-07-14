@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 import { SearchService } from '@app/search/services/search.service';
-import { AppState, TypeaheadResultKind } from '@app/shared/models/typeahead-result.model';
-import { merge, startWith, Subject, switchMap, tap, withLatestFrom } from 'rxjs';
+import { AppState, kindSectionLabelMap, TypeaheadResultKind, typeaheadSectionLabelSingular } from '@app/shared/models/typeahead-result.model';
+import { merge, startWith, Subject, switchMap, withLatestFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { outputFromObservable, takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
@@ -11,7 +11,6 @@ import { SearchTermService } from '@app/shared/services/search-term.service';
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
-  styleUrl: './search-bar.component.scss',
   imports: [ReactiveFormsModule],
   providers: [SearchService],
   encapsulation: ViewEncapsulation.None,
@@ -24,7 +23,8 @@ export class SearchBarComponent {
   readonly focus$ = new Subject<string>();
   private readonly source$ = merge(this.form.valueChanges, this.focus$);
 
-  protected readonly TypeaheadResultKind = TypeaheadResultKind;
+  protected readonly kindSectionLabelMap = kindSectionLabelMap;
+  protected readonly typeaheadSectionLabelSingular = typeaheadSectionLabelSingular;
 
   readonly searchLabel = computed<string>(() => {
     switch (this.state()) {

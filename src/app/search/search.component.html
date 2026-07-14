@@ -5,18 +5,18 @@
   <header class="align-content-end text-center hero-container"
           [class.hero]="hero()"
           role="banner">
-    <div class="display-1 fw-bold pb-7 text-primary" style="letter-spacing: -.2rem;" aria-hidden="true">
+    <div class="display-1 fw-bold pb-7 text-darknlight" style="letter-spacing: -.2rem;" aria-hidden="true">
       V<span class="fw-bold">er</span><span class="opacity-75">s<span class="fw-bold ">e<span class="fw-lighter">arch</span></span></span>
     </div>
     <h1 class="visually-hidden">Versearch — Explore timeless poetry</h1>
-    <p class="display-6 pb-10 text-primary" aria-hidden="true">Explore timeless poetry</p>
+    <p class="display-6 pb-10 text-darknlight" aria-hidden="true">Explore timeless poetry</p>
   </header>
 
   <div class="flex-shrink-1 w-100 d-flex justify-content-center align-items-center p-4"
        role="search"
        aria-label="Poetry search">
-    @if (!hero()) {
-      <div class="text-center fw-bold h6 pe-4 clickable text-primary"
+    @if (!hero() && state() === 'search') {
+      <div class="d-none d-sm-block text-center fw-bold h6 pe-4 clickable text-darknlight"
            role="button"
            tabindex="0"
            aria-label="Reset search"
@@ -31,8 +31,8 @@
     }
     @if (state() !== 'search') {
       <app-button-icon-with-text icon="bi-arrow-left"
-                                 color="secondary"
-                                 text="Back to All Search"
+                                 color="darknlight"
+                                 [text]="(breakpointService.sm | async) ? 'Back to All Search' : ''"
                                  size="lg"
                                  class="pe-4"
                                  aria-label="Back to results"

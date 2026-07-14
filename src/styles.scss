@@ -45,28 +45,14 @@ $white-spaces: ('pre', 'initial', 'pre-line', 'pre-wrap', 'nowrap', 'collapse');
   }
 }
 
-@each $palette, $palette-map in $nt-colors {
-
-  @each $color, $value in $palette-map {
-    .text-#{$color} {
-      color: var(--#{$prefix}#{$color}) !important;
-    }
-    .bg-#{$color} {
-      background: var(--#{$prefix}#{$color}) !important;
-    }
-  }
-}
 
 :root {
-  @each $shade, $value in $gray-palette {
-    --#{$prefix}#{$shade}: #{$value};
-  }
 
   @each $shade, $value in $primary-palette {
     --#{$prefix}#{$shade}: #{$value};
   }
 
-  @each $shade, $value in $success-palette {
+  @each $shade, $value in $darknlight-palette {
     --#{$prefix}#{$shade}: #{$value};
   }
 
@@ -78,7 +64,7 @@ $white-spaces: ('pre', 'initial', 'pre-line', 'pre-wrap', 'nowrap', 'collapse');
     --#{$prefix}#{$shade}-rgb: #{to-rgb($value)};
   }
 
-  @each $shade, $value in $success-palette {
+  @each $shade, $value in $darknlight-palette {
     --#{$prefix}#{$shade}-rgb : #{to-rgb($value)};
   }
 }
@@ -140,84 +126,3 @@ $white-spaces: ('pre', 'initial', 'pre-line', 'pre-wrap', 'nowrap', 'collapse');
   font-family: "Libre Baskerville", serif;
 }
 
-.small-caps {
-  font-size: 80%;
-  text-transform: uppercase;
-}
-
-.text-prewrap {
-  white-space: pre-wrap;
-}
-
-
-/* Adds additional heading-7 class that matches small font size */
-h7, .h7 {
-  margin-bottom: $headings-margin-bottom;
-  font-family: $headings-font-family;
-  font-weight: $headings-font-weight;
-  line-height: $headings-line-height;
-  color: $headings-color;
-}
-//
-// /* Adds a heading-bold class and html tag for each heading class */
-// h1-bold, h2-bold, h3-bold, h4-bold, h5-bold, h6-bold, h7-bold,
-// .h1-bold, .h2-bold, .h3-bold, .h4-bold, .h5-bold, .h6-bold, .h7-bold {
-//   margin-bottom: $headings-margin-bottom;
-//   font-family: $headings-font-family;
-//   font-weight: $headings-bold-font-weight;
-//   line-height: $headings-line-height;
-//   color: $headings-color;
-// }
-//
-// h1-bold, .h1-bold { @include font-size($h1-font-size); }
-// h2-bold, .h2-bold { @include font-size($h2-font-size); }
-// h3-bold, .h3-bold { @include font-size($h3-font-size); }
-// h4-bold, .h4-bold { @include font-size($h4-font-size); }
-// h5-bold, .h5-bold { @include font-size($h5-font-size); }
-// h6-bold, .h6-bold { @include font-size($h6-font-size); }
-h7, .h7 { @include font-size($h7-font-size); }
-// h7-bold, .h7-bold { @include font-size($h7-font-size); }
-
-// h1-important, .h1-important { @include font-size($h1-font-size); & { font-weight: $headings-font-weight; } }
-// h2-important, .h2-important { @include font-size($h2-font-size); & { font-weight: $headings-font-weight; } }
-// h3-important, .h3-important { @include font-size($h3-font-size); & { font-weight: $headings-font-weight; } }
-// h4-important, .h4-important { @include font-size($h4-font-size); & { font-weight: $headings-font-weight; } }
-// h5-important, .h5-important { @include font-size($h5-font-size); & { font-weight: $headings-font-weight; } }
-// h6-important, .h6-important { @include font-size($h6-font-size); & { font-weight: $headings-font-weight; } }
-// h7-important, .h7-important { @include font-size($h7-font-size); & { font-weight: $headings-font-weight; } }
-
-
-/* Adds a smaller font class and smaller html tag */
-smaller,
-.smaller {
-  @include font-size($smaller-font-size);
-
-  font-weight: $font-weight-normal;
-}
-
-
-/* Adds Text-Shadow classes for all box-shadows (sm, md, lg, etc)
-    Increases opaqueness for each. */
-
-@each $key, $value in $box-shadows {
-  .text-#{$key} {
-    text-shadow: darken-shadow($value, .2);
-  }
-}
-@include color-mode(dark) {
-
-  @each $key, $value in $box-shadows-dark {
-    .text-#{$key} {
-      text-shadow: darken-shadow($value, .2);
-    }
-  }
-}
-
-.highlight {
-  background: color.adjust($warning, $alpha: -0.6);
-}
-@include color-mode(dark) {
-  .highlight {
-    background: color.adjust($warning, $alpha: -0.55);
-  }
-}

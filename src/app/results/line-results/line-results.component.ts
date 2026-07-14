@@ -10,7 +10,6 @@ import { ResultsEmptyStateComponent } from '../results-empty-state.component';
 @Component({
   selector: 'app-line-results',
   templateUrl: './line-results.component.html',
-  styleUrl: './line-results.component.scss',
   imports: [
     ListInteractionStateDirective,
     ListKeyboardNavDirective,

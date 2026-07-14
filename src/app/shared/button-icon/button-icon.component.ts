@@ -53,7 +53,6 @@ import { asyncDelay } from '@app/shared/utilities/async-delay';
 })
 export class ButtonIconComponent implements OnInit, OnDestroy {
   renderer = inject(Renderer2);
-  el = inject(ElementRef);
 
   /**
    * Required Icon classname from bootstrap icons or addichenal icons

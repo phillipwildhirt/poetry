@@ -91,6 +91,16 @@ export default defineConfig([
       // '@ngrx/avoid-mapping-selectors': 'warn',
     },
   }, {
+    files: ['**/*.spec.ts'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'script',
+      parserOptions: {
+        project: ['./tsconfig.spec.json'],
+        createDefaultProgram: true
+      },
+    },
+  }, {
     files: ['**/*.html'],
     extends: compat.extends('plugin:@angular-eslint/template/recommended'),
 

@@ -15,14 +15,12 @@ import { Router, ROUTER_OUTLET_DATA } from '@angular/router';
 import { ListInteractionStateDirective } from '@app/shared/directives/list-interaction-state.directive';
 import { ListKeyboardNavDirective } from '@app/shared/directives/list-keyboard-nav.directive';
 import { SearchTermService } from '@app/shared/services/search-term.service';
-import { isEmpty } from 'lodash-es';
 import { TitleSkeletonComponent } from '@app/results/title-results/result/title-skeleton.component';
 import { ResultsEmptyStateComponent } from './results-empty-state.component';
 
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
-  styleUrl: './results.component.scss',
   imports: [
     ListInteractionStateDirective,
     ListKeyboardNavDirective,
@@ -45,7 +43,6 @@ export class ResultsComponent {
   readonly isTitle = isTitle;
   readonly isLine = isLine;
   readonly isSkeleton = isSkeleton;
-  protected readonly isEmpty = isEmpty;
 
   protected searchBySection(sectionLabel: TypeaheadSectionLabel): void {
     const path = sectionLabelRouteMap[sectionLabel];

@@ -29,6 +29,7 @@
                   role="option"
                   [attr.aria-label]="isAuthor(result) ? 'Author: ' + result.name : 'Poem: ' + result.title + ' by ' + result.author"
                   [attr.tabindex]="$first ? 0 : -1"
+                  appListInteractionStateDirective
                   (click)="resultClick(result)"
                   (keydown.enter)="resultClick(result)"
                   (keydown.space)="resultClick(result)">

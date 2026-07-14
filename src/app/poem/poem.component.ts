@@ -1,7 +1,7 @@
 import { Component, inject, input, Signal } from '@angular/core';
 import { PoetryApiService } from '@app/shared/services/poetry-api.service';
 import { Poem } from '@app/shared/models/poetrydb.models';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, combineLatest, map, of, switchMap, take } from 'rxjs';
 import { ButtonIconWithTextComponent } from '@app/shared/button-icon/button-icon-with-text.component';
 import { SkeletonComponent } from '@app/shared/skeleton/skeleton.component';
@@ -11,12 +11,14 @@ import { Router } from '@angular/router';
 import { SearchTermService } from '@app/shared/services/search-term.service';
 import { ScrollDirective, ScrollPositionY } from '../shared/directives/scroll.directive';
 import { delay, distinctUntilChanged } from 'rxjs/operators';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { DarkModeService } from '@app/shared/services/dark-mode.service';
 
 @Component({
   selector: 'app-poem',
   templateUrl: './poem.component.html',
-  styleUrl: './poem.component.scss',
   imports: [
+    ReactiveFormsModule,
     FormatterPipe,
     AsyncPipe,
     ScrollDirective,
@@ -30,6 +32,7 @@ export class PoemComponent {
   private readonly location = inject(Location);
   private readonly router = inject(Router);
   private readonly searchTermService = inject(SearchTermService);
+  private readonly darkModeService = inject(DarkModeService);
 
   readonly author = input.required<string>();
   readonly title = input.required<string>();
@@ -41,7 +44,8 @@ export class PoemComponent {
       switchMap( ([author, title])  => this.poetryApiService.getPoem(author, title))
     )
   );
-
+  private readonly isInDarkMode = toSignal(this.darkModeService.isInDarkMode$, {initialValue: false});
+  readonly darkMode = new FormControl<boolean>(this.isInDarkMode(), {nonNullable: true});
   readonly contentChanged$ = toObservable(this.poem).pipe(map(() => void 0));
   private readonly _scrollState$ = new BehaviorSubject<ScrollPositionY>('top');
   readonly scrollState$ = this._scrollState$.pipe(distinctUntilChanged());
@@ -50,6 +54,7 @@ export class PoemComponent {
 
   constructor() {
     this.poetryApiService.getAuthors().subscribe();
+    this.darkMode.valueChanges.pipe(takeUntilDestroyed()).subscribe( darkmode => this.darkModeService.updateDarkMode(darkmode ? 'dark' : 'light'));
   }
 
   public setShadowState(event: ScrollPositionY): void {
@@ -59,6 +64,13 @@ export class PoemComponent {
 
   protected backToSearch(): void {
     this.searchTermService.overrideIndex();
+    const lastTerm = this.searchTermService.lastTerm();
+    const lastNonExactAuthorTerm = this.searchTermService.lastNonExactAuthorTerm();
+    if (lastTerm !== lastNonExactAuthorTerm) {
+      this.searchTermService.setExactAuthor(lastTerm);
+    } else {
+      this.searchTermService.setTerm(lastTerm);
+    }
     const referrerIsSameOrigin = document.referrer.startsWith(window.location.origin);
     if (referrerIsSameOrigin) {
       this.location.back();
