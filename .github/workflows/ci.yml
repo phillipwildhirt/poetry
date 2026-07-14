@@ -80,13 +80,16 @@ jobs:
     if: github.ref == 'refs/heads/production'
     environment: production
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist/
 
-      - name: Deploy (placeholder)
+      - name: Deploy Poetry
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
