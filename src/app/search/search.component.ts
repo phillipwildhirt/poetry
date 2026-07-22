@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, Signal, signal } from '@angular/core';
+import { afterNextRender, Component, computed, effect, ElementRef, inject, Signal, signal  } from '@angular/core';
 import { AnimationStateService } from '@app/shared/animations/animation-state.service';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { AppState, TypeaheadAuthorResult, TypeaheadResult, TypeaheadResultKind } from '@app/shared/models/typeahead-result.model';
@@ -36,11 +36,16 @@ export class SearchComponent {
   private readonly searchTermService = inject(SearchTermService);
   private readonly animationState = inject(AnimationStateService);
   protected readonly breakpointService = inject(BreakpointService);
+  private readonly elementRef = inject(ElementRef<HTMLElement>);
+
   readonly data = signal<{ results: TypeaheadResult[]; term: string } | undefined>(undefined);
   readonly hero = computed<boolean>(() => this.data() === undefined);
 
   private heroTransitionTimer: ReturnType<typeof setTimeout> | undefined;
   constructor() {
+    this.elementRef.nativeElement.classList.add('preload');
+    afterNextRender(() => requestAnimationFrame(() => this.elementRef.nativeElement.classList.remove('preload')));
+
     effect(() => {
       if (!this.hero()) {
         clearTimeout(this.heroTransitionTimer);

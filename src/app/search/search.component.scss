@@ -1,6 +1,15 @@
 @import 'bootstrap/scss/mixins/breakpoints';
 @import 'src/app/shared/stylesheets/bootstrap/variables';
 
+:host.preload {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}
+
 $animation-time: 700ms;
 
 .search-bar-container {
